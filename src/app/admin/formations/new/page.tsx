@@ -78,7 +78,7 @@ export default function NewFormationPage() {
       if (chap) {
         await supabase.from('sequences').insert({
           chapitre_id: chap.id,
-          title: '1.1 Vue d&apos;ensemble et fondamentaux',
+          title: "1.1 Vue d'ensemble et fondamentaux",
           order_index: 1,
         });
       }

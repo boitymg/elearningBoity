@@ -72,7 +72,7 @@ export function Button({
       ) : (
         leftIcon
       )}
-      <span>{children}</span>
+      {children}
       {!isLoading && rightIcon}
     </button>
   );

@@ -99,7 +99,7 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
   if (!questions.length) {
     return (
       <div className="bg-white rounded-2xl p-6 text-center text-slate-600">
-        <p>Aucune question n&apos;est disponible pour cette évaluation.</p>
+        <p>{"Aucune question n'est disponible pour cette évaluation."}</p>
         {onClose && (
           <Button variant="outline" size="sm" onClick={onClose} className="mt-4">
             Fermer
@@ -132,7 +132,7 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
         <p className="text-xs sm:text-sm text-slate-600 mb-6">
           {isPassed
             ? 'Vous avez démontré une excellente maîtrise des compétences requises par Boity Studio.'
-            : 'Vous n&apos;avez pas atteint le seuil minimum requis pour valider cette séquence.'}
+            : "Vous n'avez pas atteint le seuil minimum requis pour valider cette séquence."}
         </p>
 
         {/* Score Card */}
@@ -276,7 +276,7 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
             : quiz.feedback_mode === 'immediate'
             ? 'Vérifier la réponse'
             : currentQuestionIndex + 1 === questions.length
-            ? 'Terminer l&apos;évaluation'
+            ? "Terminer l'évaluation"
             : 'Question suivante'}
         </Button>
       </div>

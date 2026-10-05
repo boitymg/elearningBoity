@@ -345,7 +345,7 @@ export default function PlayerPage() {
 
         {/* SIDEBAR PLAN DU COURS (DESKTOP ET MOBILE DRAWER) */}
         {showChaptersSidebar && (
-          <aside className="fixed inset-y-0 right-0 z-50 w-80 max-w-[85vw] bg-white text-slate-900 shadow-2xl flex flex-col lg:relative lg:inset-auto lg:z-10 lg:w-80 lg:border-l lg:border-slate-800 lg:shadow-none animate-in slide-in-from-right-4 duration-200">
+          <aside className="fixed inset-y-0 right-0 z-50 w-[340px] sm:w-[390px] lg:w-[380px] xl:w-[410px] max-w-[92vw] bg-white text-slate-900 shadow-2xl flex flex-col lg:relative lg:inset-auto lg:z-10 lg:border-l lg:border-slate-800 lg:shadow-none animate-in slide-in-from-right-4 duration-200">
             <ChapterList
               chapters={chapters}
               activeSequenceId={activeSequence?.id}

@@ -43,7 +43,7 @@ export default function InscriptionPage() {
       router.push('/app/formations');
     } catch (err: unknown) {
       console.error(err);
-      setError('Impossible de créer le compte. L&apos;adresse est peut-être déjà utilisée.');
+      setError("Impossible de créer le compte. L'adresse est peut-être déjà utilisée.");
     } finally {
       setLoading(false);
     }
