@@ -25,6 +25,26 @@ export default function AProposPage() {
             </p>
           </div>
 
+          {/* VIDÉO DE PRÉSENTATION OFFICIELLE BOITY STUDIO */}
+          <div className="bg-slate-950 rounded-3xl p-3 sm:p-5 shadow-2xl border-2 border-[#EE9B00]/40 overflow-hidden relative">
+            <div className="relative rounded-2xl overflow-hidden aspect-video bg-black shadow-inner">
+              <video
+                src="/videos/presentation-boity.mp4"
+                controls
+                playsInline
+                poster="/brand/logo-boity.png"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="px-4 py-3 flex items-center justify-between text-xs text-slate-400">
+              <span className="font-bold text-[#EE9B00] flex items-center gap-1.5">
+                <Film className="w-4 h-4" />
+                <span>Présentation Officielle • BOITY STUDIO</span>
+              </span>
+              <span className="text-[11px] text-slate-500 font-medium">Production audiovisuelle &amp; E-learning</span>
+            </div>
+          </div>
+
           {/* Mission Card */}
           <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-4">
             <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">

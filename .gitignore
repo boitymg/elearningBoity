@@ -40,6 +40,7 @@ firebase-debug.log*
 
 # large media assets (>100MB GitHub limit)
 *.mp4
+!public/videos/presentation-boity.mp4
 *.mkv
 *.mov
 *.zip

@@ -114,28 +114,22 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Colonne Aperçu Visuel Player */}
+              {/* Colonne Présentation Vidéo Boity Studio */}
               <div className="lg:col-span-5 relative">
-                <div className="relative mx-auto max-w-md lg:max-w-none rounded-2xl p-2 bg-gradient-to-tr from-[#0B4F9C] to-[#EE9B00] shadow-2xl">
-                  <div className="relative rounded-xl overflow-hidden aspect-video bg-slate-900 group">
-                    <Image
-                      src="/brand/logo-boity.png"
-                      alt="Boity E-learning Player Preview"
-                      fill
-                      className="object-cover opacity-80"
+                <div className="relative mx-auto max-w-md lg:max-w-none rounded-2xl p-2 bg-gradient-to-tr from-[#0B4F9C] via-indigo-900 to-[#EE9B00] shadow-2xl">
+                  <div className="relative rounded-xl overflow-hidden aspect-video bg-black group shadow-inner">
+                    <video
+                      src="/videos/presentation-boity.mp4"
+                      controls
+                      playsInline
+                      poster="/brand/logo-boity.png"
+                      className="w-full h-full object-contain"
                     />
-                    <div className="absolute inset-0 bg-slate-950/40 flex items-center justify-center">
-                      <Link href="/formations">
-                        <div className="w-16 h-16 rounded-full bg-[#EE9B00] text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 active:scale-95 transition-all">
-                          <Play className="w-7 h-7 fill-current ml-1" />
-                        </div>
-                      </Link>
-                    </div>
 
-                    {/* Badge interactif simulé */}
-                    <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-xs text-white text-xs px-3 py-1 rounded-md flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#EE9B00] animate-ping" />
-                      <span>Timeline synchronisée • video.currentTime</span>
+                    {/* Badge interactif Boity */}
+                    <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-white/20 pointer-events-none">
+                      <span className="w-2 h-2 rounded-full bg-[#EE9B00] animate-pulse" />
+                      <span>BOITY STUDIO • Présentation Vidéo</span>
                     </div>
                   </div>
                 </div>
