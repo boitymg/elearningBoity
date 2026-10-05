@@ -257,7 +257,7 @@ export default function HomePage() {
       <footer className="bg-slate-900 text-white border-t border-slate-800 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800">
-            <BrandLogo variant="full" size="md" href="/" />
+            <BrandLogo variant="full" size="md" href="/" theme="dark" />
             <p className="text-xs text-slate-400 text-center md:text-right">
               BOITY STUDIO • Solutions E-learning, Audiovisuel &amp; Ingénierie Pédagogique
             </p>

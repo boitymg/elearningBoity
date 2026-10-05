@@ -40,9 +40,9 @@ export function AdminSidebar() {
       {/* Brand Header */}
       <div className="p-5 sm:p-6 border-b border-slate-800 bg-slate-950/40 flex items-center justify-between">
         <div>
-          <BrandLogo variant="full" size="md" href="/admin/dashboard" />
-          <div className="mt-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#0B4F9C]/30 text-[#EE9B00] border border-[#0B4F9C]/50 text-[11px] font-semibold tracking-wide uppercase">
-            <ShieldCheck className="w-3.5 h-3.5" />
+          <BrandLogo variant="full" size="md" href="/admin/dashboard" theme="dark" />
+          <div className="mt-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#0B4F9C]/40 text-[#EE9B00] border border-blue-500/30 text-[11px] font-semibold tracking-wide uppercase">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#EE9B00]" />
             <span>Console Boity Studio</span>
           </div>
         </div>
