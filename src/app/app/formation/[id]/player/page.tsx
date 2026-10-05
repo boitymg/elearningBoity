@@ -320,6 +320,7 @@ export default function PlayerPage() {
               chapters={chapters}
               currentSequence={activeSequence || undefined}
               interactions={interactions}
+              isQuizActive={!!activeQuiz}
               onProgressUpdate={handleProgressUpdate}
               onQuizTrigger={handleQuizTrigger}
               onNextSequence={handleNextSequence}

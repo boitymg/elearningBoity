@@ -26,6 +26,7 @@ interface InteractiveVideoPlayerProps {
   currentSequence?: Sequence;
   interactions?: Interaction[];
   initialTime?: number;
+  isQuizActive?: boolean;
   onProgressUpdate?: (currentTime: number, percentage: number) => void;
   onQuizTrigger?: (quizId?: string) => void;
   onNextSequence?: () => void;
@@ -38,6 +39,7 @@ export function InteractiveVideoPlayer({
   currentSequence,
   interactions = [],
   initialTime = 0,
+  isQuizActive = false,
   onProgressUpdate,
   onQuizTrigger,
   onNextSequence,
@@ -59,6 +61,16 @@ export function InteractiveVideoPlayer({
   // Historique des interactions déjà déclenchées pour pause automatique
   const triggeredPausesRef = useRef<Set<string>>(new Set());
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const prevQuizActive = useRef(false);
+
+  // Reprendre la vidéo automatiquement quand le quiz est fermé ou validé
+  useEffect(() => {
+    if (prevQuizActive.current && !isQuizActive && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+    prevQuizActive.current = isQuizActive;
+  }, [isQuizActive]);
 
   // Initialisation du temps de reprise
   useEffect(() => {
@@ -383,12 +395,24 @@ export function InteractiveVideoPlayer({
           {duration > 0 &&
             interactions.map((inter) => {
               const posPercent = (inter.start_time / duration) * 100;
+              const isQuiz = inter.type === 'QUIZ';
               return (
-                <div
+                <button
+                  type="button"
                   key={inter.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (videoRef.current) {
+                      videoRef.current.currentTime = inter.start_time;
+                    }
+                  }}
                   style={{ left: `${posPercent}%` }}
                   title={`${inter.title || inter.type} (${formatTime(inter.start_time)})`}
-                  className="absolute -top-1 w-2.5 h-2.5 bg-white rounded-full border border-[#0B4F9C] shadow-md transform -translate-x-1/2 pointer-events-none hover:scale-125 transition-transform"
+                  className={`absolute -top-1 w-3 h-3 rounded-full shadow-md transform -translate-x-1/2 hover:scale-150 transition-all cursor-pointer z-10 ${
+                    isQuiz
+                      ? 'bg-[#EE9B00] border-2 border-white ring-2 ring-[#EE9B00]/60'
+                      : 'bg-white border-2 border-[#0B4F9C]'
+                  }`}
                 />
               );
             })}
