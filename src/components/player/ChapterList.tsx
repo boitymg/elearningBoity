@@ -234,7 +234,7 @@ export function ChapterList({
       </div>
 
       {/* BOUTON EXAMEN CERTIFIANT TYPE 3 */}
-      {finalQuiz && onSelectQuiz && (
+      {finalQuiz && onSelectQuiz ? (
         <div className="p-3 sm:p-4 bg-[#0A2540] border-t border-slate-800 shrink-0">
           <button
             onClick={() => onSelectQuiz(finalQuiz.id)}
@@ -257,6 +257,25 @@ export function ChapterList({
               Lancer
             </span>
           </button>
+        </div>
+      ) : (
+        <div className="p-3 sm:p-4 bg-slate-900 border-t border-slate-800 shrink-0 text-white flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/30">
+              <PlayCircle className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-blue-300 block">
+                Type 2 • Vidéo Interactive
+              </span>
+              <p className="text-[10px] text-slate-400 font-light truncate">
+                Consultation libre &amp; fiches repères
+              </p>
+            </div>
+          </div>
+          <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-medium shrink-0">
+            100% Autonome
+          </span>
         </div>
       )}
     </div>

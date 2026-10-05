@@ -46,6 +46,26 @@ export default function AdminMediasPage() {
         // Fallback avec les assets locaux pré-enregistrés
         setMedias([
           {
+            id: 'sample-type2',
+            file_name: 'VIDEOtype2.mp4',
+            file_path: 'videos/VIDEOtype2.mp4',
+            file_url: '/videos/VIDEOtype2.mp4',
+            mime_type: 'video/mp4',
+            file_size_bytes: 44455536,
+            duration_seconds: 523,
+            created_at: new Date().toISOString(),
+          },
+          {
+            id: 'sample-pres',
+            file_name: 'presentation-boity.mp4',
+            file_path: 'videos/presentation-boity.mp4',
+            file_url: '/videos/presentation-boity.mp4',
+            mime_type: 'video/mp4',
+            file_size_bytes: 21893821,
+            duration_seconds: 145,
+            created_at: new Date().toISOString(),
+          },
+          {
             id: 'sample-1',
             file_name: 'formation-sample.mp4',
             file_path: 'videos/formation-sample.mp4',

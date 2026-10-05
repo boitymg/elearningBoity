@@ -158,36 +158,54 @@ export default function HomePage() {
                     <span>Déploiement direct sur serveur interne (Jovena)</span>
                   </li>
                 </ul>
+                <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs text-slate-500 font-light">Vidéo interactive • 08:43</span>
+                  <Link href="/app/formation/a0000000-0000-0000-0000-000000000002/player">
+                    <Button variant="secondary" size="sm" rightIcon={<ArrowRight className="w-4 h-4" />}>
+                      Lancer le lecteur Type 2
+                    </Button>
+                  </Link>
+                </div>
               </div>
 
               {/* Carte Type 3 */}
-              <div className="bg-white rounded-2xl p-8 border border-slate-200/90 shadow-xs hover:border-[#EE9B00] transition-all">
-                <div className="w-12 h-12 rounded-xl bg-amber-50 text-[#EE9B00] flex items-center justify-center mb-6">
-                  <Award className="w-6 h-6" />
+              <div className="bg-white rounded-2xl p-8 border border-slate-200/90 shadow-xs hover:border-[#EE9B00] transition-all flex flex-col justify-between">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-amber-50 text-[#EE9B00] flex items-center justify-center mb-6">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div className="inline-block px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#EE9B00] text-slate-950 uppercase tracking-wider mb-3">
+                    Type 3 • Vidéo avec Évaluation
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">
+                    Certification &amp; Traçabilité Complète
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed mb-6">
+                    {"Intègre des quiz interactifs synchronisés, calcul automatique de score, gestion du seuil de réussite (ex: 70%) et export certifié SCORM 1.2 pour LMS d'entreprise."}
+                  </p>
+                  <ul className="space-y-2.5 text-xs text-slate-700 font-medium mb-6">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
+                      <span>Quiz QCM, choix multiples et vrai/faux avec explications</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
+                      <span>Export SCORM 1.2 complet avec imsmanifest.xml valide</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
+                      <span>Traçabilité cmi (lesson_status, score.raw, session_time)</span>
+                    </li>
+                  </ul>
                 </div>
-                <div className="inline-block px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#EE9B00] text-slate-950 uppercase tracking-wider mb-3">
-                  Type 3 • Vidéo avec Évaluation
+                <div className="pt-5 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs text-slate-500 font-light">5 modules • Examen certifiant</span>
+                  <Link href="/app/formation/a0000000-0000-0000-0000-000000000001/player">
+                    <Button variant="primary" size="sm" rightIcon={<ArrowRight className="w-4 h-4" />}>
+                      Lancer le parcours Type 3
+                    </Button>
+                  </Link>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  Certification &amp; Traçabilité Complète
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                  Intègre des quiz interactifs synchronisés, calcul automatique de score, gestion du seuil de réussite (ex: 70%) et export certifié SCORM 1.2 pour LMS d&apos;entreprise.
-                </p>
-                <ul className="space-y-2.5 text-xs text-slate-700 font-medium">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
-                    <span>Quiz QCM, choix multiples et vrai/faux avec explications</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
-                    <span>Export SCORM 1.2 complet avec imsmanifest.xml valide</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
-                    <span>Traçabilité cmi (lesson_status, score.raw, session_time)</span>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
