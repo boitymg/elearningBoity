@@ -42,24 +42,39 @@ export default function AdminExportsPage() {
     setSuccessMessage(null);
 
     try {
-      // 1. Récupérer l'arbre complet du cours
-      const { data: chapters } = await supabase
-        .from('chapitres')
-        .select(`
-          *,
-          sequences (
+      // 1. Récupérer l'arbre complet du cours (Chapitres + Séquences + Vidéos + Interactions + Quiz complets)
+      const [{ data: chapters }, { data: quizzes }] = await Promise.all([
+        supabase
+          .from('chapitres')
+          .select(`
             *,
-            videos (
+            sequences (
               *,
-              interactions (*)
+              videos (
+                *,
+                interactions (*)
+              )
             )
-          )
-        `)
-        .eq('formation_id', formation.id);
+          `)
+          .eq('formation_id', formation.id)
+          .order('order_index', { ascending: true }),
+        supabase
+          .from('quiz')
+          .select(`
+            *,
+            questions (
+              *,
+              answers (*)
+            )
+          `)
+          .eq('formation_id', formation.id)
+          .order('order_index', { ascending: true }),
+      ]);
 
       const coursePayload = {
         formation,
         chapters: chapters || [],
+        quizzes: quizzes || [],
         exported_at: new Date().toISOString(),
       };
 

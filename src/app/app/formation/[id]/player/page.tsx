@@ -133,6 +133,12 @@ export default function PlayerPage() {
         .order('start_time', { ascending: true });
 
       if (inters) setInteractions(inters as Interaction[]);
+    } else {
+      // Séquence d'évaluation : déclencher directement le quiz associé
+      const matchedQuiz = quizList.find((q) => q.sequence_id === seq.id);
+      if (matchedQuiz) {
+        setActiveQuiz(matchedQuiz);
+      }
     }
   };
 
@@ -328,7 +334,9 @@ export default function PlayerPage() {
               chapters={chapters}
               activeSequenceId={activeSequence?.id}
               completedSequenceIds={completedSequences}
+              quizList={quizList}
               onSelectSequence={handleSelectSequence}
+              onSelectQuiz={handleQuizTrigger}
             />
           </aside>
         )}

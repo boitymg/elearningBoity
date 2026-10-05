@@ -323,35 +323,156 @@ export const PLAYER_ENGINE_JS = `/**
     };
   }
 
-  function startQuiz() {
+  function startQuiz(quizId) {
     video.pause();
+    var quizzes = courseData.quizzes || (courseData.quiz ? [courseData.quiz] : []);
+    var targetQuiz = null;
+    if (quizId) {
+      targetQuiz = quizzes.find(function(q) { return q.id === quizId; });
+    }
+    if (!targetQuiz) {
+      targetQuiz = quizzes[0] || {
+        title: "Évaluation Type 3 Boity Studio",
+        passing_score: 70,
+        questions: []
+      };
+    }
+
+    var questions = targetQuiz.questions || [];
+    if (questions.length === 0) {
+      alert("Aucune question configurée pour ce module.");
+      video.play();
+      return;
+    }
+
+    var currentIndex = 0;
+    var correctCount = 0;
+    var isSubmitted = false;
+
     var modal = document.createElement("div");
     modal.className = "modal-overlay";
-    modal.innerHTML = '<div class="modal-box">' +
-      '<h3 style="color:#0B4F9C;font-size:18px;margin-bottom:12px;">Évaluation Officielle Boity Studio</h3>' +
-      '<p style="font-size:14px;color:#334155;margin-bottom:16px;">À 25 ips, quelle est la vitesse recommandée ?</p>' +
-      '<button class="modal-btn" style="width:100%;margin-bottom:8px;" id="q-ans-1">1/25s</button>' +
-      '<button class="modal-btn" style="width:100%;margin-bottom:8px;background:#0B4F9C;color:#fff;" id="q-ans-2">1/50s (Règle 180°)</button>' +
-      '</div>';
     document.body.appendChild(modal);
 
-    document.getElementById("q-ans-2").onclick = function() {
-      alert("Félicitations ! 100% de réussite. Validation transmise au LMS.");
-      if (window.BoityScorm) {
-        window.BoityScorm.recordScore(100, true);
-      }
-      document.body.removeChild(modal);
-      video.play();
-    };
+    function renderQuestion() {
+      var q = questions[currentIndex];
+      var answers = q.answers || [];
+      var progressText = (currentIndex + 1) + " / " + questions.length;
 
-    document.getElementById("q-ans-1").onclick = function() {
-      alert("Réponse incorrecte. Score : 0%.");
+      var html = '<div class="modal-box" style="max-width:580px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:8px;">' +
+          '<span style="color:#0B4F9C;font-size:12px;font-weight:bold;text-transform:uppercase;">' + targetQuiz.title + '</span>' +
+          '<span style="background:#EE9B00;color:#000;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:12px;">' + progressText + '</span>' +
+        '</div>' +
+        '<p style="font-size:15px;font-weight:600;color:#0f172a;margin-bottom:16px;line-height:1.4;">' + q.question_text + '</p>' +
+        '<div id="answers-container" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>' +
+        '<div id="explanation-container" style="display:none;background:#f0fdf4;border:1px solid #bbf7d0;padding:10px 14px;border-radius:8px;font-size:13px;color:#166534;margin-bottom:16px;"></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+          '<button id="quiz-close-btn" style="background:transparent;border:none;color:#64748b;font-size:12px;cursor:pointer;">Fermer</button>' +
+          '<button id="quiz-next-btn" class="modal-btn" style="margin-top:0;display:none;">Question suivante &rarr;</button>' +
+        '</div>' +
+      '</div>';
+
+      modal.innerHTML = html;
+
+      var answersContainer = document.getElementById("answers-container");
+      var explanationContainer = document.getElementById("explanation-container");
+      var nextBtn = document.getElementById("quiz-next-btn");
+      var closeBtn = document.getElementById("quiz-close-btn");
+
+      closeBtn.onclick = function() {
+        document.body.removeChild(modal);
+        video.play();
+      };
+
+      answers.forEach(function(ans) {
+        var btn = document.createElement("button");
+        btn.className = "modal-btn";
+        btn.style.width = "100%";
+        btn.style.textAlign = "left";
+        btn.style.marginTop = "0";
+        btn.style.background = "#f8fafc";
+        btn.style.color = "#1e293b";
+        btn.style.border = "1px solid #cbd5e1";
+        btn.style.borderRadius = "8px";
+        btn.style.padding = "10px 14px";
+        btn.innerText = ans.answer_text;
+
+        btn.onclick = function() {
+          if (isSubmitted) return;
+          isSubmitted = true;
+
+          if (ans.is_correct) {
+            correctCount++;
+            btn.style.background = "#dcfce7";
+            btn.style.borderColor = "#22c55e";
+            btn.style.color = "#14532d";
+            btn.innerHTML = "&#10004; " + ans.answer_text;
+          } else {
+            btn.style.background = "#fee2e2";
+            btn.style.borderColor = "#ef4444";
+            btn.style.color = "#7f1d1d";
+            btn.innerHTML = "&#10008; " + ans.answer_text;
+          }
+
+          if (q.explanation) {
+            explanationContainer.style.display = "block";
+            explanationContainer.innerHTML = "<strong>Explication Boity Studio :</strong> " + q.explanation;
+          }
+
+          nextBtn.style.display = "inline-block";
+          if (currentIndex + 1 === questions.length) {
+            nextBtn.innerText = "Voir les résultats";
+          }
+        };
+
+        answersContainer.appendChild(btn);
+      });
+
+      nextBtn.onclick = function() {
+        isSubmitted = false;
+        if (currentIndex + 1 < questions.length) {
+          currentIndex++;
+          renderQuestion();
+        } else {
+          renderFinalScreen();
+        }
+      };
+    }
+
+    function renderFinalScreen() {
+      var scorePercentage = Math.round((correctCount / questions.length) * 100);
+      var passingScore = targetQuiz.passing_score || 70;
+      var isPassed = scorePercentage >= passingScore;
+
+      // Transmission officielle au LMS SCORM 1.2
       if (window.BoityScorm) {
-        window.BoityScorm.recordScore(0, false);
+        window.BoityScorm.recordScore(scorePercentage, isPassed);
       }
-      document.body.removeChild(modal);
-      video.play();
-    };
+
+      var html = '<div class="modal-box" style="text-align:center;max-width:480px;">' +
+        '<div style="font-size:44px;margin-bottom:8px;">' + (isPassed ? "🎓" : "⚠️") + '</div>' +
+        '<h3 style="color:' + (isPassed ? "#0B4F9C" : "#dc2626") + ';font-size:20px;margin-bottom:8px;">' +
+          (isPassed ? "Félicitations ! Évaluation Validée" : "Évaluation Non Validée") +
+        '</h3>' +
+        '<p style="font-size:14px;color:#475569;margin-bottom:20px;">' +
+          (isPassed ? "Vous avez atteint les exigences requises pour ce module." : "Le seuil de validation requis est de " + passingScore + "%.") +
+        '</p>' +
+        '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin-bottom:20px;display:flex;justify-content:space-around;">' +
+          '<div><div style="font-size:11px;color:#64748b;text-transform:uppercase;font-weight:bold;">Votre score</div><div style="font-size:28px;font-weight:bold;color:' + (isPassed ? "#16a34a" : "#dc2626") + ';">' + scorePercentage + '%</div></div>' +
+          '<div style="width:1px;background:#cbd5e1;"></div>' +
+          '<div><div style="font-size:11px;color:#64748b;text-transform:uppercase;font-weight:bold;">Seuil requis</div><div style="font-size:28px;font-weight:bold;color:#0f172a;">' + passingScore + '%</div></div>' +
+        '</div>' +
+        '<button class="modal-btn" id="finish-quiz-btn">Reprendre la formation</button>' +
+      '</div>';
+
+      modal.innerHTML = html;
+      document.getElementById("finish-quiz-btn").onclick = function() {
+        document.body.removeChild(modal);
+        video.play();
+      };
+    }
+
+    renderQuestion();
   }
 })();
 `;
