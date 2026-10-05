@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ============================================================
+     CHARTE OFFICIELLE BOITY STUDIO - SOURCE DE VÉRITÉ
+     ============================================================ */
+  --boity-primary: #EE9B00;          /* Orange / Jaune Boity principal */
+  --boity-primary-hover: #D97706;    /* Orange foncé au survol */
+  --boity-primary-light: #FEF3C7;    /* Fond léger badge/actif */
+  
+  --boity-secondary: #0B4F9C;        /* Bleu Boity officiel */
+  --boity-secondary-hover: #093E7B;  /* Bleu Boity foncé */
+  --boity-secondary-light: #E0E7FF;  /* Bleu clair fond */
+  --boity-navy: #0A2540;             /* Bleu nuit structure */
+
+  --background: #F8FAFC;             /* Arrière-plan doux neutre */
+  --surface: #FFFFFF;                /* Blanc immaculé cartes/player */
+  --foreground: #0F172A;             /* Texte principal sombre */
+  --foreground-muted: #64748B;       /* Texte secondaire gris pro */
+  
+  --border: #E2E8F0;                 /* Bordures claires */
+  --border-focus: #EE9B00;           /* Bordure focus */
+  
+  --success: #10B981;                /* Validation / Réussite */
+  --success-bg: #ECFDF5;
+  --warning: #F59E0B;                /* Avertissement */
+  --warning-bg: #FFFBEB;
+  --danger: #EF4444;                 /* Erreur / Échec */
+  --danger-bg: #FEF2F2;
 }
 
 @theme inline {
+  --color-boity-primary: var(--boity-primary);
+  --color-boity-primary-hover: var(--boity-primary-hover);
+  --color-boity-primary-light: var(--boity-primary-light);
+  --color-boity-secondary: var(--boity-secondary);
+  --color-boity-secondary-hover: var(--boity-secondary-hover);
+  --color-boity-secondary-light: var(--boity-secondary-light);
+  --color-boity-navy: var(--boity-navy);
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-foreground-muted: var(--foreground-muted);
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar professionnelle */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
