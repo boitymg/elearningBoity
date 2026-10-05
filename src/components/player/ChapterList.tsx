@@ -11,6 +11,7 @@ interface ChapterListProps {
   quizList?: Quiz[];
   onSelectSequence: (sequence: Sequence) => void;
   onSelectQuiz?: (quizId: string) => void;
+  onClose?: () => void;
 }
 
 export function ChapterList({
@@ -20,6 +21,7 @@ export function ChapterList({
   quizList = [],
   onSelectSequence,
   onSelectQuiz,
+  onClose,
 }: ChapterListProps) {
   const [openChapterIds, setOpenChapterIds] = React.useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
@@ -40,14 +42,25 @@ export function ChapterList({
   const finalQuiz = quizList.find((q) => q.questions && q.questions.length >= 10) || quizList[quizList.length - 1];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs flex flex-col h-full">
-      <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-        <h3 className="text-sm font-bold text-[#0B4F9C] uppercase tracking-wider">
-          Plan du cours
-        </h3>
-        <span className="text-xs text-slate-500 font-medium">
-          {chapters.length} chapitres
-        </span>
+    <div className="bg-white rounded-none lg:rounded-2xl border-0 lg:border border-slate-200 overflow-hidden shadow-xs flex flex-col h-full">
+      <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-slate-100 bg-slate-50/80 flex items-center justify-between">
+        <div>
+          <h3 className="text-xs sm:text-sm font-bold text-[#0B4F9C] uppercase tracking-wider">
+            Plan du cours
+          </h3>
+          <span className="text-[11px] text-slate-500 font-medium">
+            {chapters.length} chapitres
+          </span>
+        </div>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 transition-colors"
+            aria-label="Fermer le sommaire"
+          >
+            <span className="text-lg leading-none font-bold">&times;</span>
+          </button>
+        )}
       </div>
 
       <div className="divide-y divide-slate-100 overflow-y-auto flex-1">

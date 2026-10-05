@@ -34,7 +34,7 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             {/* Coordonnées */}
-            <div className="md:col-span-5 bg-white rounded-3xl p-8 border border-slate-200 shadow-xs space-y-6">
+            <div className="md:col-span-5 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 shadow-xs space-y-6">
               <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
                 Coordonnées officielles
               </h2>
@@ -67,7 +67,7 @@ export default function ContactPage() {
             </div>
 
             {/* Formulaire */}
-            <div className="md:col-span-7 bg-white rounded-3xl p-8 border border-slate-200 shadow-xs">
+            <div className="md:col-span-7 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 shadow-xs">
               {submitted ? (
                 <div className="text-center py-8 space-y-3">
                   <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />

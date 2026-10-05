@@ -112,51 +112,52 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
   // ÉCRAN FINAL DE RÉSULTATS
   if (isFinished) {
     return (
-      <div className="bg-white rounded-2xl p-8 max-w-xl mx-auto shadow-2xl border border-slate-200 text-center animate-in zoom-in-95">
+      <div className="bg-white rounded-2xl p-5 sm:p-8 max-w-xl mx-auto shadow-2xl border border-slate-200 text-center animate-in zoom-in-95 max-h-[85vh] overflow-y-auto">
         <div className="flex justify-center mb-4">
           {isPassed ? (
-            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center ring-8 ring-emerald-50">
-              <Award className="w-9 h-9" />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center ring-8 ring-emerald-50">
+              <Award className="w-8 h-8 sm:w-9 sm:h-9" />
             </div>
           ) : (
-            <div className="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center ring-8 ring-red-50">
-              <AlertCircle className="w-9 h-9" />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center ring-8 ring-red-50">
+              <AlertCircle className="w-8 h-8 sm:w-9 sm:h-9" />
             </div>
           )}
         </div>
 
-        <h2 className="text-xl font-extrabold text-slate-900 mb-2">
+        <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mb-2">
           {isPassed ? 'Félicitations ! Évaluation Réussie' : 'Évaluation Non Validée'}
         </h2>
 
-        <p className="text-sm text-slate-600 mb-6">
+        <p className="text-xs sm:text-sm text-slate-600 mb-6">
           {isPassed
             ? 'Vous avez démontré une excellente maîtrise des compétences requises par Boity Studio.'
             : 'Vous n&apos;avez pas atteint le seuil minimum requis pour valider cette séquence.'}
         </p>
 
         {/* Score Card */}
-        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-5 mb-6 flex items-center justify-around">
+        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-4 sm:p-5 mb-6 flex items-center justify-around">
           <div>
-            <span className="block text-xs uppercase font-semibold text-slate-500">Votre Score</span>
-            <span className={`text-3xl font-extrabold ${isPassed ? 'text-emerald-600' : 'text-red-600'}`}>
+            <span className="block text-[11px] sm:text-xs uppercase font-semibold text-slate-500">Votre Score</span>
+            <span className={`text-2xl sm:text-3xl font-extrabold ${isPassed ? 'text-emerald-600' : 'text-red-600'}`}>
               {calculatedScore}%
             </span>
           </div>
           <div className="h-10 w-px bg-slate-200" />
           <div>
-            <span className="block text-xs uppercase font-semibold text-slate-500">Seuil Requis</span>
-            <span className="text-3xl font-extrabold text-slate-800">
+            <span className="block text-[11px] sm:text-xs uppercase font-semibold text-slate-500">Seuil Requis</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-slate-800">
               {quiz.passing_score}%
             </span>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Button
             variant="outline"
             onClick={handleRetry}
             leftIcon={<RotateCcw className="w-4 h-4" />}
+            className="w-full sm:w-auto"
           >
             Recommencer le test
           </Button>
@@ -166,6 +167,7 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
               variant="primary"
               onClick={onClose}
               rightIcon={<ArrowRight className="w-4 h-4" />}
+              className="w-full sm:w-auto"
             >
               Poursuivre la formation
             </Button>
@@ -180,29 +182,29 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
   const chosenList = selectedAnswers[currentQuestion.id] || [];
 
   return (
-    <div className="bg-white rounded-2xl p-6 max-w-xl mx-auto shadow-2xl border border-slate-200">
+    <div className="bg-white rounded-2xl p-4 sm:p-6 max-w-xl mx-auto shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto flex flex-col">
       {/* Header : Titre du Quiz et Avancement */}
-      <div className="pb-4 mb-4 border-b border-slate-100 flex items-center justify-between">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#0B4F9C]">
+      <div className="pb-3 sm:pb-4 mb-4 border-b border-slate-100 flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#0B4F9C]">
             Évaluation interactive • Type 3
           </span>
-          <h3 className="text-base font-bold text-slate-900 line-clamp-1">{quiz.title}</h3>
+          <h3 className="text-sm sm:text-base font-bold text-slate-900 truncate">{quiz.title}</h3>
         </div>
-        <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-[#EE9B00]/20 text-slate-900 border border-[#EE9B00]/40">
+        <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-[#EE9B00]/20 text-slate-900 border border-[#EE9B00]/40 shrink-0">
           {currentQuestionIndex + 1} / {questions.length}
         </span>
       </div>
 
       {/* Intitulé de la question */}
-      <div className="mb-6">
-        <p className="text-base font-semibold text-slate-900 leading-snug">
+      <div className="mb-4 sm:mb-6">
+        <p className="text-sm sm:text-base font-semibold text-slate-900 leading-snug">
           {currentQuestion.question_text}
         </p>
       </div>
 
       {/* Liste des choix */}
-      <div className="space-y-2.5 mb-6">
+      <div className="space-y-2 sm:space-y-2.5 mb-5 flex-1">
         {currentAnswers.map((answer) => {
           const isSelected = chosenList.includes(answer.id);
           const isCorrect = answer.is_correct;
@@ -225,14 +227,14 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
               key={answer.id}
               onClick={() => handleSelectOption(answer.id)}
               disabled={showImmediateFeedback}
-              className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between gap-3 ${optionStyle}`}
+              className={`w-full text-left p-3 sm:p-4 rounded-xl border transition-all flex items-center justify-between gap-3 ${optionStyle}`}
             >
-              <span className="text-sm">{answer.answer_text}</span>
+              <span className="text-xs sm:text-sm">{answer.answer_text}</span>
               {showImmediateFeedback && isCorrect && (
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 shrink-0" />
               )}
               {showImmediateFeedback && isSelected && !isCorrect && (
-                <XCircle className="w-5 h-5 text-red-500 shrink-0" />
+                <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 shrink-0" />
               )}
             </button>
           );
@@ -241,9 +243,9 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
 
       {/* Explication pédagogique en cas de feedback immédiat */}
       {showImmediateFeedback && currentQuestion.explanation && (
-        <div className="mb-6 p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-xs text-blue-900">
+        <div className="mb-5 p-3 sm:p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-xs text-blue-900">
           <p className="font-bold mb-1 flex items-center gap-1.5 text-[#0B4F9C]">
-            <CheckCircle2 className="w-4 h-4 text-[#EE9B00]" />
+            <CheckCircle2 className="w-4 h-4 text-[#EE9B00] shrink-0" />
             <span>Explication pédagogique Boity Studio :</span>
           </p>
           <p className="leading-relaxed">{currentQuestion.explanation}</p>
@@ -251,9 +253,9 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
       )}
 
       {/* Footer Boutons */}
-      <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-3 sm:pt-4 border-t border-slate-100 mt-auto">
         {onClose ? (
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose} className="w-full sm:w-auto">
             Quitter le test
           </Button>
         ) : (
@@ -265,6 +267,7 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
           onClick={handleValidateOrNext}
           disabled={chosenList.length === 0}
           rightIcon={<ArrowRight className="w-4 h-4" />}
+          className="w-full sm:w-auto"
         >
           {showImmediateFeedback
             ? currentQuestionIndex + 1 === questions.length

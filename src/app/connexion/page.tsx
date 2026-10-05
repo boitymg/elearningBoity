@@ -155,7 +155,7 @@ function ConnexionForm() {
 
 export default function ConnexionPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <BrandLogo variant="full" size="lg" href="/" />
         <h2 className="mt-6 text-2xl font-black text-slate-900 tracking-tight">

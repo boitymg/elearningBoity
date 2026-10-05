@@ -131,7 +131,7 @@ export default function AdminExportsPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6 sm:space-y-8">
       <div>
         <span className="text-xs font-bold uppercase tracking-wider text-[#0B4F9C]">
           BOITY STUDIO • PACKAGES &amp; EXPORTS
@@ -212,47 +212,49 @@ export default function AdminExportsPage() {
         </div>
 
         {exportHistory.length > 0 ? (
-          <table className="w-full text-left text-xs divide-y divide-slate-100">
-            <thead className="bg-slate-50/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
-              <tr>
-                <th className="px-6 py-3.5">Fichier généré</th>
-                <th className="px-6 py-3.5">Type de package</th>
-                <th className="px-6 py-3.5">Version</th>
-                <th className="px-6 py-3.5">Statut</th>
-                <th className="px-6 py-3.5">Date</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
-              {exportHistory.map((rec) => (
-                <tr key={rec.id} className="hover:bg-slate-50">
-                  <td className="px-6 py-4 font-mono font-bold text-slate-900">
-                    {rec.file_path || 'package.zip'}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Badge variant={rec.type === 'SCORM_1_2' ? 'type3' : 'type2'} size="sm">
-                      {rec.type}
-                    </Badge>
-                  </td>
-                  <td className="px-6 py-4 font-mono">v{rec.version}</td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex items-center gap-1 text-emerald-700 font-bold">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                      Prêt
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">
-                    {new Date(rec.created_at).toLocaleDateString('fr-FR', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[650px] text-left text-xs divide-y divide-slate-100">
+              <thead className="bg-slate-50/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                <tr>
+                  <th className="px-6 py-3.5">Fichier généré</th>
+                  <th className="px-6 py-3.5">Type de package</th>
+                  <th className="px-6 py-3.5">Version</th>
+                  <th className="px-6 py-3.5">Statut</th>
+                  <th className="px-6 py-3.5">Date</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+                {exportHistory.map((rec) => (
+                  <tr key={rec.id} className="hover:bg-slate-50">
+                    <td className="px-6 py-4 font-mono font-bold text-slate-900">
+                      {rec.file_path || 'package.zip'}
+                    </td>
+                    <td className="px-6 py-4">
+                      <Badge variant={rec.type === 'SCORM_1_2' ? 'type3' : 'type2'} size="sm">
+                        {rec.type}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-4 font-mono">v{rec.version}</td>
+                    <td className="px-6 py-4">
+                      <span className="inline-flex items-center gap-1 text-emerald-700 font-bold">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        Prêt
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-slate-500">
+                      {new Date(rec.created_at).toLocaleDateString('fr-FR', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="p-8 text-center text-xs text-slate-500">
             Aucun package n&apos;a encore été généré.

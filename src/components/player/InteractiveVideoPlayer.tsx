@@ -419,12 +419,12 @@ export function InteractiveVideoPlayer({
         </div>
 
         {/* Ligne des contrôles principaux */}
-        <div className="flex items-center justify-between text-white text-xs">
+        <div className="flex items-center justify-between text-white text-xs gap-2">
           {/* Gauche : Play, Recul, Avance, Volume, Horloge */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <button
               onClick={togglePlay}
-              className="p-1.5 rounded-full hover:bg-white/20 transition-colors text-white"
+              className="p-1 sm:p-1.5 rounded-full hover:bg-white/20 transition-colors text-white"
               aria-label={isPlaying ? 'Pause' : 'Lecture'}
             >
               {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current" />}
@@ -432,7 +432,7 @@ export function InteractiveVideoPlayer({
 
             <button
               onClick={() => seekDelta(-10)}
-              className="p-1 text-slate-300 hover:text-white transition-colors"
+              className="hidden sm:inline-flex p-1 text-slate-300 hover:text-white transition-colors"
               title="Reculer de 10s"
             >
               <RotateCcw className="w-4 h-4" />
@@ -440,14 +440,14 @@ export function InteractiveVideoPlayer({
 
             <button
               onClick={() => seekDelta(10)}
-              className="p-1 text-slate-300 hover:text-white transition-colors"
+              className="hidden sm:inline-flex p-1 text-slate-300 hover:text-white transition-colors"
               title="Avancer de 10s"
             >
               <RotateCw className="w-4 h-4" />
             </button>
 
             {/* Volume */}
-            <div className="flex items-center gap-1.5 group/vol ml-1">
+            <div className="flex items-center gap-1 sm:gap-1.5 group/vol">
               <button
                 onClick={() => {
                   if (videoRef.current) {
@@ -456,6 +456,7 @@ export function InteractiveVideoPlayer({
                   }
                 }}
                 className="p-1 text-slate-300 hover:text-white"
+                title={isMuted ? 'Activer le son' : 'Couper le son'}
               >
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-4 h-4 text-red-400" />
@@ -470,21 +471,21 @@ export function InteractiveVideoPlayer({
                 step="0.05"
                 value={isMuted ? 0 : volume}
                 onChange={handleVolumeChange}
-                className="w-16 h-1 bg-slate-600 rounded appearance-none cursor-pointer accent-[#EE9B00]"
+                className="hidden sm:inline-block w-14 sm:w-16 h-1 bg-slate-600 rounded appearance-none cursor-pointer accent-[#EE9B00]"
               />
             </div>
 
             {/* Temps */}
-            <span className="font-mono text-slate-300 text-xs ml-2 select-none">
+            <span className="font-mono text-slate-300 text-[11px] sm:text-xs select-none">
               <span className="text-white font-semibold">{formatTime(currentTime)}</span> /{' '}
               <span>{formatTime(duration)}</span>
             </span>
           </div>
 
           {/* Droite : Vitesse, Type badge, Fullscreen */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Type badge */}
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-[#0B4F9C] text-white">
+            <span className="hidden md:inline-block px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-[#0B4F9C] text-white">
               {formation.type}
             </span>
 
@@ -496,7 +497,7 @@ export function InteractiveVideoPlayer({
                 setPlaybackRate(rate);
                 if (videoRef.current) videoRef.current.playbackRate = rate;
               }}
-              className="bg-slate-800 text-xs text-white rounded px-2 py-1 border border-slate-700 focus:outline-none focus:border-[#EE9B00]"
+              className="bg-slate-800 text-[11px] sm:text-xs text-white rounded px-1.5 py-0.5 sm:px-2 sm:py-1 border border-slate-700 focus:outline-none focus:border-[#EE9B00]"
             >
               <option value="0.75">0.75x</option>
               <option value="1">1.0x</option>
@@ -508,7 +509,7 @@ export function InteractiveVideoPlayer({
             {/* Plein écran */}
             <button
               onClick={toggleFullscreen}
-              className="p-1.5 rounded-full hover:bg-white/20 transition-colors text-white"
+              className="p-1 sm:p-1.5 rounded-full hover:bg-white/20 transition-colors text-white"
               title={isFullscreen ? 'Quitter plein écran' : 'Plein écran'}
             >
               {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}

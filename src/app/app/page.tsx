@@ -57,7 +57,7 @@ export default function LearnerDashboardPage() {
   const completedCount = Object.values(progressMap).filter((p) => p.is_completed).length;
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
       {/* Header Accueil */}
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">

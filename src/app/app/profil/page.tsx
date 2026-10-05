@@ -9,7 +9,7 @@ export default function LearnerProfilePage() {
   const { user, profile, logout } = useAuth();
 
   return (
-    <div className="p-8 max-w-4xl mx-auto w-full">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto w-full">
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
           Mon profil apprenant
@@ -19,7 +19,7 @@ export default function LearnerProfilePage() {
         </p>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-xs space-y-6">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 p-5 sm:p-8 shadow-xs space-y-6">
         <div className="flex items-center gap-5 pb-6 border-b border-slate-100">
           <div className="w-16 h-16 rounded-full bg-blue-50 text-[#0B4F9C] flex items-center justify-center font-extrabold text-xl">
             {profile?.display_name?.charAt(0) || 'U'}

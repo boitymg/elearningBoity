@@ -36,9 +36,9 @@ export default function AProposPage() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="px-4 py-3 flex items-center justify-between text-xs text-slate-400">
+            <div className="px-3 sm:px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-0 text-xs text-slate-400">
               <span className="font-bold text-[#EE9B00] flex items-center gap-1.5">
-                <Film className="w-4 h-4" />
+                <Film className="w-4 h-4 shrink-0" />
                 <span>Présentation Officielle • BOITY STUDIO</span>
               </span>
               <span className="text-[11px] text-slate-500 font-medium">Production audiovisuelle &amp; E-learning</span>
@@ -46,8 +46,8 @@ export default function AProposPage() {
           </div>
 
           {/* Mission Card */}
-          <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-4">
-            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[#EE9B00]" />
               <span>Notre Mission E-learning</span>
             </h2>

@@ -40,7 +40,7 @@ export default function LearnerProgressionPage() {
   }, [user]);
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
           Ma progression &amp; Certifications
@@ -113,8 +113,8 @@ export default function LearnerProgressionPage() {
         </h2>
 
         {quizAttempts.length > 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
-            <table className="min-h-full w-full divide-y divide-slate-200 text-xs">
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-xs">
+            <table className="min-w-[550px] w-full divide-y divide-slate-200 text-xs">
               <thead className="bg-slate-50 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                 <tr>
                   <th className="px-6 py-3 text-left">Date</th>

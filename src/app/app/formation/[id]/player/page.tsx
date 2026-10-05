@@ -255,34 +255,39 @@ export default function PlayerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col select-none">
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col select-none overflow-x-hidden">
       {/* BARRE SUPÉRIEURE DU PLAYER */}
-      <header className="h-16 px-6 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 flex items-center justify-between z-20">
-        <div className="flex items-center gap-4">
+      <header className="h-14 sm:h-16 px-3 sm:px-6 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 flex items-center justify-between z-30 shrink-0">
+        <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
           <Link
             href="/app/formations"
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+            className="flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-white transition-colors shrink-0"
+            title="Quitter le lecteur"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Quitter</span>
+            <span className="hidden sm:inline">Quitter</span>
           </Link>
 
-          <div className="h-4 w-px bg-slate-800" />
+          <div className="h-4 w-px bg-slate-800 shrink-0" />
 
-          <BrandLogo variant="symbol" size="sm" href="" />
+          <BrandLogo variant="symbol" size="sm" href="" className="shrink-0" />
 
-          <div className="hidden sm:block">
-            <h1 className="text-sm font-bold text-white line-clamp-1">{formation.title}</h1>
-            <p className="text-[11px] text-[#EE9B00] font-semibold">
+          <div className="min-w-0">
+            <h1 className="text-xs sm:text-sm font-bold text-white truncate max-w-[150px] sm:max-w-xs md:max-w-md">
+              {formation.title}
+            </h1>
+            <p className="text-[10px] sm:text-[11px] text-[#EE9B00] font-semibold truncate max-w-[150px] sm:max-w-xs">
               {activeSequence?.title || 'Séquence active'}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Badge variant={formation.type === 'TYPE_3' ? 'type3' : 'type2'} size="sm">
-            {formation.type}
-          </Badge>
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <span className="hidden md:inline-block">
+            <Badge variant={formation.type === 'TYPE_3' ? 'type3' : 'type2'} size="sm">
+              {formation.type}
+            </Badge>
+          </span>
 
           {quizList.length > 0 && (
             <Button
@@ -290,8 +295,9 @@ export default function PlayerPage() {
               size="sm"
               onClick={() => handleQuizTrigger()}
               leftIcon={<Award className="w-3.5 h-3.5 text-[#EE9B00]" />}
+              className="text-xs px-2.5 py-1 sm:px-3 sm:py-1.5"
             >
-              Évaluation ({quizList.length})
+              <span className="hidden sm:inline">Évaluation </span>({quizList.length})
             </Button>
           )}
 
@@ -303,6 +309,7 @@ export default function PlayerPage() {
                 : 'text-slate-400 hover:text-white border-slate-800 hover:bg-slate-800'
             }`}
             title="Afficher/masquer le sommaire"
+            aria-label="Sommaire du cours"
           >
             <ListTree className="w-4 h-4" />
           </button>
@@ -310,9 +317,9 @@ export default function PlayerPage() {
       </header>
 
       {/* ZONE CENTRALE : PLAYER & SOMMAIRE */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* PLAYER VIDÉO PRINCIPAL */}
-        <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-black overflow-hidden relative">
+        <div className="flex-1 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black overflow-hidden relative">
           <div className="w-full max-w-5xl">
             <InteractiveVideoPlayer
               formation={formation}
@@ -328,16 +335,30 @@ export default function PlayerPage() {
           </div>
         </div>
 
-        {/* SIDEBAR PLAN DU COURS (COLLAPSIBLE) */}
+        {/* BACKDROP POUR MOBILE/TABLETTE QUAND LE SOMMAIRE EST OUVERT */}
         {showChaptersSidebar && (
-          <aside className="w-80 border-l border-slate-800 bg-white text-slate-900 shrink-0 flex flex-col z-10 animate-in slide-in-from-right-4 duration-200">
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 lg:hidden animate-in fade-in duration-200"
+            onClick={() => setShowChaptersSidebar(false)}
+          />
+        )}
+
+        {/* SIDEBAR PLAN DU COURS (DESKTOP ET MOBILE DRAWER) */}
+        {showChaptersSidebar && (
+          <aside className="fixed inset-y-0 right-0 z-50 w-80 max-w-[85vw] bg-white text-slate-900 shadow-2xl flex flex-col lg:relative lg:inset-auto lg:z-10 lg:w-80 lg:border-l lg:border-slate-800 lg:shadow-none animate-in slide-in-from-right-4 duration-200">
             <ChapterList
               chapters={chapters}
               activeSequenceId={activeSequence?.id}
               completedSequenceIds={completedSequences}
               quizList={quizList}
-              onSelectSequence={handleSelectSequence}
+              onSelectSequence={(seq) => {
+                handleSelectSequence(seq);
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  setShowChaptersSidebar(false);
+                }
+              }}
               onSelectQuiz={handleQuizTrigger}
+              onClose={() => setShowChaptersSidebar(false)}
             />
           </aside>
         )}
@@ -345,8 +366,8 @@ export default function PlayerPage() {
 
       {/* MODAL QUIZ INTERACTIF OVERLAY */}
       {activeQuiz && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-2xl animate-in zoom-in-95">
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          <div className="w-full max-w-2xl my-auto animate-in zoom-in-95">
             <QuizRenderer
               quiz={activeQuiz}
               onComplete={handleQuizComplete}

@@ -40,7 +40,7 @@ export default function AdminFormationsPage() {
   }, []);
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-[#0B4F9C]">
@@ -63,7 +63,7 @@ export default function AdminFormationsPage() {
 
       <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs divide-y divide-slate-100">
+          <table className="w-full min-w-[650px] text-left text-xs divide-y divide-slate-100">
             <thead className="bg-slate-50/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
               <tr>
                 <th className="px-6 py-3.5">Formation</th>

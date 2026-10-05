@@ -129,7 +129,7 @@ export default function AdminMediasPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-[#0B4F9C]">
@@ -167,55 +167,57 @@ export default function AdminMediasPage() {
 
       {/* Grille des Médias */}
       <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
-        <table className="w-full text-left text-xs divide-y divide-slate-100">
-          <thead className="bg-slate-50/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
-            <tr>
-              <th className="px-6 py-3.5">Fichier</th>
-              <th className="px-6 py-3.5">Type MIME</th>
-              <th className="px-6 py-3.5">Taille</th>
-              <th className="px-6 py-3.5">Durée</th>
-              <th className="px-6 py-3.5">Date</th>
-              <th className="px-6 py-3.5 text-right">Lien</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
-            {medias.map((m) => (
-              <tr key={m.id} className="hover:bg-slate-50 transition-colors">
-                <td className="px-6 py-4 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
-                    {getMediaIcon(m.mime_type)}
-                  </div>
-                  <div>
-                    <p className="font-bold text-slate-900">{m.file_name}</p>
-                    <p className="text-[10px] text-slate-400 font-mono">{m.file_path}</p>
-                  </div>
-                </td>
-                <td className="px-6 py-4 font-mono text-[11px] text-slate-600">
-                  {m.mime_type}
-                </td>
-                <td className="px-6 py-4 font-mono">
-                  {formatFileSize(m.file_size_bytes)}
-                </td>
-                <td className="px-6 py-4">
-                  {m.duration_seconds ? `${Math.round(m.duration_seconds)}s` : '—'}
-                </td>
-                <td className="px-6 py-4 text-slate-500">
-                  {new Date(m.created_at).toLocaleDateString('fr-FR')}
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <a
-                    href={m.file_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-bold text-[#0B4F9C] hover:underline"
-                  >
-                    Ouvrir
-                  </a>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[650px] text-left text-xs divide-y divide-slate-100">
+            <thead className="bg-slate-50/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+              <tr>
+                <th className="px-6 py-3.5">Fichier</th>
+                <th className="px-6 py-3.5">Type MIME</th>
+                <th className="px-6 py-3.5">Taille</th>
+                <th className="px-6 py-3.5">Durée</th>
+                <th className="px-6 py-3.5">Date</th>
+                <th className="px-6 py-3.5 text-right">Lien</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+              {medias.map((m) => (
+                <tr key={m.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-6 py-4 flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+                      {getMediaIcon(m.mime_type)}
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900">{m.file_name}</p>
+                      <p className="text-[10px] text-slate-400 font-mono">{m.file_path}</p>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 font-mono text-[11px] text-slate-600">
+                    {m.mime_type}
+                  </td>
+                  <td className="px-6 py-4 font-mono">
+                    {formatFileSize(m.file_size_bytes)}
+                  </td>
+                  <td className="px-6 py-4">
+                    {m.duration_seconds ? `${Math.round(m.duration_seconds)}s` : '—'}
+                  </td>
+                  <td className="px-6 py-4 text-slate-500">
+                    {new Date(m.created_at).toLocaleDateString('fr-FR')}
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <a
+                      href={m.file_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-bold text-[#0B4F9C] hover:underline"
+                    >
+                      Ouvrir
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

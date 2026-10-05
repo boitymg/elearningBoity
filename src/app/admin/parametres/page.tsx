@@ -19,7 +19,7 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto w-full space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto w-full space-y-6">
       <div>
         <span className="text-xs font-bold uppercase tracking-wider text-[#0B4F9C]">
           BOITY STUDIO • CONFIGURATION
@@ -39,7 +39,7 @@ export default function AdminSettingsPage() {
         </div>
       )}
 
-      <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-xs">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 p-5 sm:p-8 shadow-xs">
         <form onSubmit={handleSave} className="space-y-6">
           <div className="space-y-4">
             <h2 className="text-sm font-bold uppercase text-[#0B4F9C]">

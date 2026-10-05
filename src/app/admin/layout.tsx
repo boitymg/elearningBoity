@@ -13,7 +13,7 @@ export default function AdminLayout({
   const { user, profile, loading, isAdmin, isProducteur } = useAuth();
 
   return (
-    <div className="min-h-screen flex bg-slate-900">
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-900">
       <AdminSidebar />
       <div className="flex-1 flex flex-col min-w-0 bg-[#F8FAFC] overflow-y-auto">
         {children}
