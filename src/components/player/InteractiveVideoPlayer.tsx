@@ -94,7 +94,9 @@ export function InteractiveVideoPlayer({
         videoRef.current.pause();
         setIsPlaying(false);
       }
+      setIsBuffering(false);
     } else if (prevQuizActive.current && !isQuizActive) {
+      setIsBuffering(false);
       if (videoRef.current) {
         videoRef.current
           .play()
@@ -122,6 +124,7 @@ export function InteractiveVideoPlayer({
     setCurrentTime(targetTime);
 
     if (seekTarget.shouldPlay) {
+      setIsBuffering(false);
       videoRef.current
         .play()
         .then(() => setIsPlaying(true))
@@ -139,6 +142,7 @@ export function InteractiveVideoPlayer({
         if (videoRef.current && !videoRef.current.paused) {
           videoRef.current.pause();
           setIsPlaying(false);
+          setIsBuffering(false);
         }
       }
     };
@@ -155,6 +159,7 @@ export function InteractiveVideoPlayer({
               if (videoRef.current && !videoRef.current.paused) {
                 videoRef.current.pause();
                 setIsPlaying(false);
+                setIsBuffering(false);
               }
             }
           }
@@ -169,6 +174,7 @@ export function InteractiveVideoPlayer({
       if (document.hidden && videoRef.current && !videoRef.current.paused) {
         videoRef.current.pause();
         setIsPlaying(false);
+        setIsBuffering(false);
       }
     };
     document.addEventListener('visibilitychange', handleVisibility);
@@ -194,6 +200,7 @@ export function InteractiveVideoPlayer({
   // Play / Pause synchronisé avec l'état physique du lecteur
   const togglePlay = () => {
     if (!videoRef.current) return;
+    setIsBuffering(false);
     if (videoRef.current.paused) {
       videoRef.current
         .play()
@@ -348,16 +355,28 @@ export function InteractiveVideoPlayer({
             }
           }
         }}
+        onLoadedData={() => setIsBuffering(false)}
+        onCanPlay={() => setIsBuffering(false)}
+        onCanPlayThrough={() => setIsBuffering(false)}
+        onSeeked={() => setIsBuffering(false)}
         onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onWaiting={() => setIsBuffering(true)}
+        onPause={() => {
+          setIsBuffering(false);
+          setIsPlaying(false);
+        }}
+        onWaiting={() => {
+          // Activer le loader uniquement si la vidéo est censée jouer activement
+          if (videoRef.current && !videoRef.current.paused) {
+            setIsBuffering(true);
+          }
+        }}
         onPlaying={() => {
           setIsBuffering(false);
           setIsPlaying(true);
         }}
-        onCanPlay={() => setIsBuffering(false)}
         onError={handleVideoError}
         onEnded={() => {
+          setIsBuffering(false);
           setIsPlaying(false);
           if (onNextSequence) onNextSequence();
         }}
@@ -368,20 +387,20 @@ export function InteractiveVideoPlayer({
         crossOrigin="anonymous"
       />
 
-      {/* BOUTON PLAY CENTRAL QUAND EN PAUSE */}
-      {!isPlaying && !isBuffering && (
+      {/* BOUTON PLAY CENTRAL QUAND EN PAUSE (TOUJOURS DISPONIBLE) */}
+      {!isPlaying && (
         <button
           type="button"
           onClick={togglePlay}
-          className="absolute inset-0 m-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#EE9B00]/90 hover:bg-[#EE9B00] text-slate-950 flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95 z-10"
+          className="absolute inset-0 m-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#EE9B00]/95 hover:bg-[#EE9B00] text-slate-950 flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95 z-20 cursor-pointer"
           aria-label="Lancer la vidéo"
         >
           <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-current ml-1" />
         </button>
       )}
 
-      {/* SPINNER DE BUFFERING */}
-      {isBuffering && (
+      {/* SPINNER DE BUFFERING (UNIQUEMENT PENDANT LA LECTURE SI ÇA RAME) */}
+      {isBuffering && isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-xs z-15 pointer-events-none">
           <div className="flex flex-col items-center gap-2 bg-slate-900/80 px-4 py-3 rounded-2xl border border-slate-700 shadow-2xl">
             <div className="w-8 h-8 border-3 border-[#EE9B00] border-t-transparent rounded-full animate-spin" />
