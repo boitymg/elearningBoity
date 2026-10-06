@@ -36,6 +36,12 @@ export function ChapterList({
       ...prev,
       [chapterId]: !prev[chapterId],
     }));
+
+    // Quand l'apprenant clique sur le module, activer directement sa première séquence pour lancer la vidéo
+    const chapter = chapters.find((ch) => ch.id === chapterId);
+    if (chapter && chapter.sequences && chapter.sequences.length > 0) {
+      onSelectSequence(chapter.sequences[0]);
+    }
   };
 
   // Trouver le quiz final certifiant (16 questions ou order_index = 6)

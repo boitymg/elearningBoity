@@ -31,6 +31,7 @@ export default function PlayerPage() {
   const [completedSequences, setCompletedSequences] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [showChaptersSidebar, setShowChaptersSidebar] = useState(true);
+  const [seekCommand, setSeekCommand] = useState<{ time: number; shouldPlay: boolean; id: number } | null>(null);
 
   // Charger la formation et toute son arborescence
   useEffect(() => {
@@ -120,9 +121,22 @@ export default function PlayerPage() {
     loadFullCourse();
   }, [formationId, user]);
 
-  // Changement de séquence active
+  // Changement de séquence active avec avance immédiate de la vidéo
   const handleSelectSequence = async (seq: Sequence) => {
     setActiveSequence(seq);
+
+    // Calculer le timestamp correspondant à ce module dans la vidéo
+    const chIdx = chapters.findIndex((ch) => ch.sequences?.some((s) => s.id === seq.id));
+    const totalDuration = activeVideo?.duration_seconds || formation?.duration_seconds || 523;
+    const targetTime = chIdx > 0 ? Math.floor((chIdx / Math.max(1, chapters.length)) * totalDuration) : 0;
+
+    // Déclencher le saut immédiat et la lecture automatique
+    setSeekCommand({
+      time: targetTime,
+      shouldPlay: true,
+      id: Date.now(),
+    });
+
     const vid = seq.videos?.[0];
     if (vid) {
       setActiveVideo(vid);
@@ -326,6 +340,7 @@ export default function PlayerPage() {
               video={activeVideo}
               chapters={chapters}
               currentSequence={activeSequence || undefined}
+              seekTarget={seekCommand}
               interactions={interactions}
               isQuizActive={!!activeQuiz}
               onProgressUpdate={handleProgressUpdate}

@@ -24,6 +24,7 @@ interface InteractiveVideoPlayerProps {
   video: Video;
   chapters?: Chapitre[];
   currentSequence?: Sequence;
+  seekTarget?: { time: number; shouldPlay: boolean; id: string | number } | null;
   interactions?: Interaction[];
   initialTime?: number;
   isQuizActive?: boolean;
@@ -37,6 +38,7 @@ export function InteractiveVideoPlayer({
   video,
   chapters = [],
   currentSequence,
+  seekTarget,
   interactions = [],
   initialTime = 0,
   isQuizActive = false,
@@ -79,6 +81,71 @@ export function InteractiveVideoPlayer({
       setCurrentTime(initialTime);
     }
   }, [initialTime]);
+
+  // Avance immédiate et lecture de la vidéo quand un module de droite est cliqué
+  useEffect(() => {
+    if (!seekTarget || !videoRef.current) return;
+
+    const targetTime = Math.max(0, Math.min(duration || 523, seekTarget.time));
+    videoRef.current.currentTime = targetTime;
+    setCurrentTime(targetTime);
+
+    if (seekTarget.shouldPlay) {
+      videoRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => {
+          console.warn('Lecture auto en attente d’interaction:', err);
+        });
+    }
+  }, [seekTarget, duration]);
+
+  // Pause automatique de la vidéo si l'utilisateur défile la page/conteneur ou quitte la vidéo
+  useEffect(() => {
+    const handleScroll = () => {
+      if (videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    // Détecter le défilement de la page / conteneurs
+    window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+
+    // Détecter si le lecteur vidéo quitte le champ de vision
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined' && containerRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
+              if (videoRef.current && !videoRef.current.paused) {
+                videoRef.current.pause();
+                setIsPlaying(false);
+              }
+            }
+          }
+        },
+        { threshold: [0, 0.35, 0.7] }
+      );
+      observer.observe(containerRef.current);
+    }
+
+    // Détecter si l'utilisateur change d'onglet
+    const handleVisibility = () => {
+      if (document.hidden && videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, { capture: true });
+      document.removeEventListener('visibilitychange', handleVisibility);
+      if (observer) observer.disconnect();
+    };
+  }, []);
 
   // Masquage auto des contrôles
   const handleMouseMove = () => {
@@ -378,10 +445,21 @@ export function InteractiveVideoPlayer({
             max={duration || 100}
             step="0.1"
             value={currentTime}
+            onPointerDown={() => {
+              if (videoRef.current && !videoRef.current.paused) {
+                videoRef.current.pause();
+                setIsPlaying(false);
+              }
+            }}
             onChange={(e) => {
               const val = parseFloat(e.target.value);
               setCurrentTime(val);
               if (videoRef.current) videoRef.current.currentTime = val;
+            }}
+            onPointerUp={() => {
+              if (videoRef.current) {
+                videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+              }
             }}
             className="w-full h-1.5 bg-slate-700/80 rounded-lg appearance-none cursor-pointer accent-[#EE9B00] hover:h-2.5 transition-all"
             style={{
