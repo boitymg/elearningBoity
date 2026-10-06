@@ -19,7 +19,8 @@ export default function PlayerPage() {
   const params = useParams();
   const router = useRouter();
   const formationId = params?.id as string;
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+  const learnerName = profile?.display_name || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Apprenant');
 
   const [formation, setFormation] = useState<Formation | null>(null);
   const [chapters, setChapters] = useState<Chapitre[]>([]);
@@ -275,11 +276,11 @@ export default function PlayerPage() {
         <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
           <Link
             href="/app/formations"
-            className="flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-white transition-colors shrink-0"
-            title="Quitter le lecteur"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-semibold transition-colors border border-slate-700 shadow-sm shrink-0"
+            title="Retour à la liste des formations"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Quitter</span>
+            <ArrowLeft className="w-4 h-4 text-[#EE9B00]" />
+            <span>Retour</span>
           </Link>
 
           <div className="h-4 w-px bg-slate-800 shrink-0" />
@@ -385,6 +386,7 @@ export default function PlayerPage() {
           <div className="w-full max-w-2xl my-auto animate-in zoom-in-95">
             <QuizRenderer
               quiz={activeQuiz}
+              userName={learnerName}
               onComplete={handleQuizComplete}
               onClose={() => setActiveQuiz(null)}
             />

@@ -7,11 +7,12 @@ import { CheckCircle2, XCircle, Award, AlertCircle, RotateCcw, ArrowRight } from
 
 interface QuizRendererProps {
   quiz: Quiz;
+  userName?: string;
   onComplete: (scorePercentage: number, isPassed: boolean, userAnswers: Record<string, string[]>) => void;
   onClose?: () => void;
 }
 
-export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
+export function QuizRenderer({ quiz, userName, onComplete, onClose }: QuizRendererProps) {
   const questions = quiz.questions || [];
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({});
@@ -109,30 +110,49 @@ export function QuizRenderer({ quiz, onComplete, onClose }: QuizRendererProps) {
     );
   }
 
-  // ÉCRAN FINAL DE RÉSULTATS
+  // ÉCRAN FINAL DE RÉSULTATS AVEC NOM DE L'UTILISATEUR ET FÉLICITATIONS
   if (isFinished) {
+    const formattedName = userName ? userName.trim() : '';
+
     return (
       <div className="bg-white rounded-2xl p-5 sm:p-8 max-w-xl mx-auto shadow-2xl border border-slate-200 text-center animate-in zoom-in-95 max-h-[85vh] overflow-y-auto">
         <div className="flex justify-center mb-4">
           {isPassed ? (
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center ring-8 ring-emerald-50">
-              <Award className="w-8 h-8 sm:w-9 sm:h-9" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center ring-8 ring-emerald-50 shadow-inner">
+              <Award className="w-9 h-9 sm:w-11 sm:h-11" />
             </div>
           ) : (
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center ring-8 ring-red-50">
-              <AlertCircle className="w-8 h-8 sm:w-9 sm:h-9" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-100 text-red-600 flex items-center justify-center ring-8 ring-red-50 shadow-inner">
+              <AlertCircle className="w-9 h-9 sm:w-11 sm:h-11" />
             </div>
           )}
         </div>
 
-        <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mb-2">
-          {isPassed ? 'Félicitations ! Évaluation Réussie' : 'Évaluation Non Validée'}
+        {isPassed && (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold mb-3">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Module validé avec succès</span>
+          </div>
+        )}
+
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">
+          {isPassed
+            ? formattedName
+              ? `Félicitations ${formattedName} ! 🎉`
+              : 'Félicitations ! Évaluation Réussie 🎉'
+            : formattedName
+            ? `Continuez vos efforts, ${formattedName} !`
+            : 'Évaluation Non Validée'}
         </h2>
 
-        <p className="text-xs sm:text-sm text-slate-600 mb-6">
+        <p className="text-xs sm:text-sm text-slate-600 mb-6 max-w-md mx-auto">
           {isPassed
-            ? 'Vous avez démontré une excellente maîtrise des compétences requises par Boity Studio.'
-            : "Vous n'avez pas atteint le seuil minimum requis pour valider cette séquence."}
+            ? formattedName
+              ? `Bravo ${formattedName}, vous avez démontré une excellente maîtrise des compétences Boity Studio sur cette séquence.`
+              : 'Vous avez démontré une excellente maîtrise des compétences requises par Boity Studio.'
+            : formattedName
+            ? `${formattedName}, vous n'avez pas encore atteint le seuil requis (${quiz.passing_score}%). Révisez la vidéo et repassez le quiz !`
+            : `Vous n'avez pas atteint le seuil minimum requis de ${quiz.passing_score}% pour valider cette séquence.`}
         </p>
 
         {/* Score Card */}

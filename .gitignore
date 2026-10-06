@@ -42,6 +42,7 @@ firebase-debug.log*
 *.mp4
 !public/videos/presentation-boity.mp4
 !public/videos/VIDEOtype2.mp4
+!public/samples/formation-sample.mp4
 *.mkv
 *.mov
 *.zip

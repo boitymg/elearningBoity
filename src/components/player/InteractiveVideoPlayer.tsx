@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import type { Formation, Chapitre, Sequence, Video, Interaction } from '@/lib/types/elearning';
 import {
   Play,
@@ -17,6 +18,7 @@ import {
   ChevronRight,
   Info,
   CheckCircle,
+  ArrowLeft,
 } from 'lucide-react';
 
 interface InteractiveVideoPlayerProps {
@@ -49,7 +51,9 @@ export function InteractiveVideoPlayer({
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // États du lecteur
+  // États du lecteur et source résiliente
+  const [videoSrc, setVideoSrc] = useState(video.video_url || '/samples/formation-sample.mp4');
+  const [isBuffering, setIsBuffering] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -65,11 +69,38 @@ export function InteractiveVideoPlayer({
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const prevQuizActive = useRef(false);
 
-  // Reprendre la vidéo automatiquement quand le quiz est fermé ou validé
+  // Synchronisation de l'URL vidéo
   useEffect(() => {
-    if (prevQuizActive.current && !isQuizActive && videoRef.current) {
-      videoRef.current.play().catch(() => {});
-      setIsPlaying(true);
+    if (video.video_url) {
+      setVideoSrc(video.video_url);
+    }
+  }, [video.video_url]);
+
+  // Fallback résilient en cas d'erreur de lecture vidéo
+  const handleVideoError = () => {
+    console.warn('Erreur chargement source vidéo:', videoSrc);
+    if (videoSrc !== '/videos/VIDEOtype2.mp4') {
+      setVideoSrc('/videos/VIDEOtype2.mp4');
+    } else {
+      setVideoSrc('/samples/formation-sample.mp4');
+    }
+  };
+
+  // Dès que le questionnaire se montre, la vidéo se met en pause
+  // Dès qu'on ferme ou valide le test, la vidéo reprend automatiquement
+  useEffect(() => {
+    if (isQuizActive) {
+      if (videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    } else if (prevQuizActive.current && !isQuizActive) {
+      if (videoRef.current) {
+        videoRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {});
+      }
     }
     prevQuizActive.current = isQuizActive;
   }, [isQuizActive]);
@@ -100,25 +131,27 @@ export function InteractiveVideoPlayer({
     }
   }, [seekTarget, duration]);
 
-  // Pause automatique de la vidéo si l'utilisateur défile la page/conteneur ou quitte la vidéo
+  // Pause intelligente uniquement si l'utilisateur quitte totalement la vidéo ou change d'onglet
   useEffect(() => {
     const handleScroll = () => {
-      if (videoRef.current && !videoRef.current.paused) {
-        videoRef.current.pause();
-        setIsPlaying(false);
+      // Détecte uniquement un défilement profond hors du champ de vision
+      if (typeof window !== 'undefined' && window.scrollY > 400) {
+        if (videoRef.current && !videoRef.current.paused) {
+          videoRef.current.pause();
+          setIsPlaying(false);
+        }
       }
     };
 
-    // Détecter le défilement de la page / conteneurs
-    window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Détecter si le lecteur vidéo quitte le champ de vision
+    // Détecter si le lecteur vidéo quitte totalement le champ de vision (0% visible)
     let observer: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== 'undefined' && containerRef.current) {
       observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
+            if (entry.intersectionRatio === 0) {
               if (videoRef.current && !videoRef.current.paused) {
                 videoRef.current.pause();
                 setIsPlaying(false);
@@ -126,7 +159,7 @@ export function InteractiveVideoPlayer({
             }
           }
         },
-        { threshold: [0, 0.35, 0.7] }
+        { threshold: [0] }
       );
       observer.observe(containerRef.current);
     }
@@ -141,7 +174,7 @@ export function InteractiveVideoPlayer({
     document.addEventListener('visibilitychange', handleVisibility);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll, { capture: true });
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleVisibility);
       if (observer) observer.disconnect();
     };
@@ -158,13 +191,19 @@ export function InteractiveVideoPlayer({
     }, 3000);
   };
 
-  // Play / Pause
+  // Play / Pause synchronisé avec l'état physique du lecteur
   const togglePlay = () => {
     if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
+    if (videoRef.current.paused) {
+      videoRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => {
+          console.warn('Erreur lecture vidéo:', err);
+        });
     } else {
-      videoRef.current.play();
+      videoRef.current.pause();
+      setIsPlaying(false);
     }
   };
 
@@ -283,19 +322,41 @@ export function InteractiveVideoPlayer({
         }
       }}
     >
-      {/* Balise HTML5 Video */}
+      {/* BOUTON RETOUR DIRECT DU LECTEUR VIDÉO */}
+      <Link
+        href="/app/formations"
+        className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold border border-white/20 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95"
+        title="Retour aux formations"
+      >
+        <ArrowLeft className="w-4 h-4 text-[#EE9B00]" />
+        <span>Retour</span>
+      </Link>
+
+      {/* Balise HTML5 Video optimisée streaming CDN et 1000+ utilisateurs */}
       <video
         ref={videoRef}
-        src={video.video_url}
+        src={videoSrc}
         poster={video.thumbnail_url || undefined}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={() => {
           if (videoRef.current) {
-            setDuration(videoRef.current.duration);
+            const d = videoRef.current.duration;
+            if (d && !isNaN(d) && isFinite(d)) {
+              setDuration(d);
+            } else if (video.duration_seconds) {
+              setDuration(video.duration_seconds);
+            }
           }
         }}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        onWaiting={() => setIsBuffering(true)}
+        onPlaying={() => {
+          setIsBuffering(false);
+          setIsPlaying(true);
+        }}
+        onCanPlay={() => setIsBuffering(false)}
+        onError={handleVideoError}
         onEnded={() => {
           setIsPlaying(false);
           if (onNextSequence) onNextSequence();
@@ -303,7 +364,31 @@ export function InteractiveVideoPlayer({
         onClick={togglePlay}
         className="w-full h-full object-contain cursor-pointer"
         playsInline
+        preload="metadata"
+        crossOrigin="anonymous"
       />
+
+      {/* BOUTON PLAY CENTRAL QUAND EN PAUSE */}
+      {!isPlaying && !isBuffering && (
+        <button
+          type="button"
+          onClick={togglePlay}
+          className="absolute inset-0 m-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#EE9B00]/90 hover:bg-[#EE9B00] text-slate-950 flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95 z-10"
+          aria-label="Lancer la vidéo"
+        >
+          <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-current ml-1" />
+        </button>
+      )}
+
+      {/* SPINNER DE BUFFERING */}
+      {isBuffering && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-xs z-15 pointer-events-none">
+          <div className="flex flex-col items-center gap-2 bg-slate-900/80 px-4 py-3 rounded-2xl border border-slate-700 shadow-2xl">
+            <div className="w-8 h-8 border-3 border-[#EE9B00] border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs font-semibold text-slate-200">Chargement...</span>
+          </div>
+        </div>
+      )}
 
       {/* OVERLAY D'INTERACTIONS SUR LA TIMELINE VIDÉO */}
       <div className="absolute inset-0 pointer-events-none">
