@@ -23,35 +23,38 @@ export function BrandLogo({
 }: BrandLogoProps) {
   const isDark = theme === 'dark' || inverted;
 
-  const dimensions = {
-    sm: { symbol: 32, fullHeight: 36, fullWidth: 120 },
-    md: { symbol: 42, fullHeight: 48, fullWidth: 160 },
-    lg: { symbol: 56, fullHeight: 64, fullWidth: 210 },
+  const sizeConfig = {
+    sm: { px: 32, boxClass: 'w-8 h-8' },
+    md: { px: 40, boxClass: 'w-10 h-10' },
+    lg: { px: 56, boxClass: 'w-14 h-14' },
   }[size];
 
   const content = (
-    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
+    <div className={`inline-flex items-center gap-2.5 select-none shrink-0 ${className}`}>
       {variant === 'symbol' ? (
-        <Image
-          src="/brand/logo-boity.png"
-          alt="Boity Studio"
-          width={dimensions.symbol}
-          height={dimensions.symbol}
-          className="object-contain shrink-0"
-          priority
-        />
-      ) : (
-        <div className="flex items-center gap-2.5">
+        <div className={`${sizeConfig.boxClass} relative shrink-0 flex items-center justify-center`}>
           <Image
             src="/brand/logo-boity.png"
             alt="Boity Studio"
-            width={dimensions.symbol}
-            height={dimensions.symbol}
-            style={{ width: 'auto', height: 'auto' }}
-            className="object-contain shrink-0"
+            width={sizeConfig.px}
+            height={sizeConfig.px}
+            className="w-full h-full object-contain shrink-0"
             priority
           />
-          <div className="flex flex-col leading-tight">
+        </div>
+      ) : (
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className={`${sizeConfig.boxClass} relative shrink-0 flex items-center justify-center`}>
+            <Image
+              src="/brand/logo-boity.png"
+              alt="Boity Studio"
+              width={sizeConfig.px}
+              height={sizeConfig.px}
+              className="w-full h-full object-contain shrink-0"
+              priority
+            />
+          </div>
+          <div className="flex flex-col leading-tight shrink-0">
             <span
               className={`font-black tracking-tight text-lg ${
                 isDark ? 'text-white' : 'text-slate-900'
@@ -76,7 +79,7 @@ export function BrandLogo({
     return (
       <Link
         href={href}
-        className="inline-block transition-transform hover:opacity-90 active:scale-95"
+        className="inline-flex items-center shrink-0 transition-transform hover:opacity-90 active:scale-95"
       >
         {content}
       </Link>
