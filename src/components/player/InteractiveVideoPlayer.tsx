@@ -449,15 +449,7 @@ export function InteractiveVideoPlayer({
                 </button>
               )}
 
-              {inter.type === 'QUIZ' && (
-                <button
-                  onClick={() => handleInteractionClick(inter)}
-                  className="px-5 py-2.5 bg-[#0B4F9C] hover:bg-[#093E7B] text-white font-bold rounded-xl shadow-xl flex items-center gap-2.5 ring-2 ring-white/80 animate-bounce"
-                >
-                  <CheckCircle className="w-5 h-5 text-[#EE9B00]" />
-                  <span>{inter.title || "Lancer l'évaluation"}</span>
-                </button>
-              )}
+              {/* Les Quiz s'ouvrent directement en modal sans bouton encombrant au milieu de l'écran */}
 
               {inter.type === 'CTA' && (
                 <button
