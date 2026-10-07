@@ -7,7 +7,7 @@ import { BrandLogo } from '@/components/ui/BrandLogo';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { Lock, Mail, User, ArrowRight, AlertCircle } from 'lucide-react';
+import { Lock, Mail, User, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
 
 export default function InscriptionPage() {
   const router = useRouter();
@@ -50,7 +50,19 @@ export default function InscriptionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+      {/* BOUTON RETOUR HAUT GAUCHE */}
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 hover:text-[#0B4F9C] text-xs sm:text-sm font-semibold transition-all border border-slate-200/80 shadow-xs hover:shadow-sm group"
+          title="Retour à l'accueil"
+        >
+          <ArrowLeft className="w-4 h-4 text-[#EE9B00] group-hover:-translate-x-0.5 transition-transform" />
+          <span>Retour à l&apos;accueil</span>
+        </Link>
+      </div>
+
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <BrandLogo variant="full" size="lg" href="/" />
         <h2 className="mt-6 text-2xl font-black text-slate-900 tracking-tight">
@@ -116,6 +128,16 @@ export default function InscriptionPage() {
             <span>Vous avez déjà un compte ? </span>
             <Link href="/connexion" className="font-bold text-[#0B4F9C] hover:underline">
               Se connecter
+            </Link>
+          </div>
+
+          <div className="mt-5 pt-4 border-t border-slate-100 text-center">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-[#0B4F9C] transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 text-[#EE9B00]" />
+              <span>Retour à la page d&apos;accueil</span>
             </Link>
           </div>
         </div>
