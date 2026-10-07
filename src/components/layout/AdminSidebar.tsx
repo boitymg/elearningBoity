@@ -19,12 +19,23 @@ import {
   Menu,
   X,
   Home,
+  Lock,
 } from 'lucide-react';
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const { profile, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleLockAdmin = async () => {
+    try {
+      await fetch('/api/admin/auth', { method: 'DELETE' });
+    } catch {}
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('boity_admin_unlocked');
+      window.location.href = '/';
+    }
+  };
 
   const menuItems = [
     { label: 'Tableau de bord', href: '/admin/dashboard', icon: LayoutDashboard },
@@ -99,6 +110,15 @@ export function AdminSidebar() {
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Basculer vers l&apos;App Apprenant</span>
         </Link>
+
+        <button
+          onClick={handleLockAdmin}
+          className="w-full flex items-center gap-2 text-xs text-amber-400/80 hover:text-[#EE9B00] transition-colors pt-1 cursor-pointer text-left"
+          title="Verrouiller l'accès administrateur"
+        >
+          <Lock className="w-3.5 h-3.5 text-[#EE9B00]" />
+          <span>Verrouiller la console</span>
+        </button>
 
         <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
           <div className="truncate pr-2">
