@@ -55,7 +55,7 @@ export default function AProposPage() {
               BOITY STUDIO conçoit, produit et diffuse des parcours e-learning interactifs pour les entreprises exigeantes. Nous croyons que la vidéo pédagogique ne doit pas être un simple flux passif, mais une expérience interactive où chaque seconde permet à l&apos;apprenant d&apos;explorer, d&apos;interagir et de valider ses compétences techniques.
             </p>
             <p className="text-sm text-slate-700 leading-relaxed">
-              Conçue pour répondre aux plus hauts standards de traçabilité (SCORM 1.2, HTML5 autonome pour serveurs d&apos;entreprise comme Jovena), la plateforme <strong>elearning.boity</strong> offre une maîtrise technique complète de la création à l&apos;exportation.
+              Conçue pour répondre aux plus hauts standards de traçabilité (SCORM 1.2, HTML5 autonome pour serveurs d&apos;entreprise), la plateforme <strong>elearning.boity</strong> offre une maîtrise technique complète de la création à l&apos;exportation.
             </p>
           </div>
 

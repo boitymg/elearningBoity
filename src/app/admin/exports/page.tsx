@@ -140,7 +140,7 @@ export default function AdminExportsPage() {
           Centre d&apos;Exportation E-learning
         </h1>
         <p className="text-xs text-slate-500 mt-1">
-          Générez des archives autonomes prêtes pour le serveur interne Jovena (HTML5) ou pour les LMS d&apos;entreprise (SCORM 1.2)
+          Générez des archives autonomes prêtes pour serveur web/intranet (HTML5) ou pour les LMS d&apos;entreprise (SCORM 1.2)
         </p>
       </div>
 

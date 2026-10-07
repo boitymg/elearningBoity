@@ -142,7 +142,7 @@ export default function HomePage() {
                   Parcours libre sans évaluation
                 </h3>
                 <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                  Exploration active grâce à des chapitres, boutons cliquables, zones sensibles (hotspots) et sauts conditionnels. Idéal pour les démonstrations de process et guides techniques sur serveur interne.
+                  Exploration active grâce à des chapitres, boutons cliquables, zones sensibles (hotspots) et sauts conditionnels. Idéal pour les démonstrations de process et guides techniques Boity Studio.
                 </p>
                 <ul className="space-y-2.5 text-xs text-slate-700 font-medium">
                   <li className="flex items-center gap-2">
@@ -152,10 +152,6 @@ export default function HomePage() {
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-[#EE9B00]" />
                     <span>Export en package HTML5 autonome sans dépendance</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-[#EE9B00]" />
-                    <span>Déploiement direct sur serveur interne (Jovena)</span>
                   </li>
                 </ul>
                 <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">

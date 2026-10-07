@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase/client';
 import { PublicNavbar } from '@/components/layout/PublicNavbar';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -8,6 +9,49 @@ import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [supportEmail, setSupportEmail] = useState('boity.mg@gmail.com');
+  const [companyName, setCompanyName] = useState('BOITY STUDIO');
+
+  // Synchronisation en temps réel depuis les paramètres de la base de données
+  useEffect(() => {
+    async function fetchContactSettings() {
+      try {
+        const { data } = await supabase
+          .from('settings')
+          .select('value')
+          .eq('key', 'platform')
+          .single();
+
+        if (data?.value) {
+          if (data.value.support_email) setSupportEmail(data.value.support_email);
+          if (data.value.company) setCompanyName(data.value.company);
+        }
+      } catch (err) {
+        console.warn('Erreur lecture paramètres contact:', err);
+      }
+    }
+
+    fetchContactSettings();
+
+    // Écoute en temps réel des changements de paramètres dans Supabase
+    const channel = supabase
+      .channel('contact_settings_changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'settings' },
+        (payload: { new?: { key?: string; value?: { support_email?: string; company?: string } } }) => {
+          if (payload?.new && payload.new.key === 'platform' && payload.new.value) {
+            if (payload.new.value.support_email) setSupportEmail(payload.new.value.support_email);
+            if (payload.new.value.company) setCompanyName(payload.new.value.company);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,8 +90,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="block font-semibold text-slate-400">Email</span>
-                    <a href="mailto:contact@boity.mg" className="font-bold text-slate-900 hover:text-[#0B4F9C]">
-                      contact@boity.mg
+                    <a href={`mailto:${supportEmail}`} className="font-bold text-slate-900 hover:text-[#0B4F9C]">
+                      {supportEmail}
                     </a>
                   </div>
                 </div>
@@ -59,7 +103,7 @@ export default function ContactPage() {
                   <div>
                     <span className="block font-semibold text-slate-400">Siège</span>
                     <span className="font-bold text-slate-900">
-                      BOITY STUDIO • Antananarivo, Madagascar
+                      {companyName} • Antananarivo, Madagascar
                     </span>
                   </div>
                 </div>

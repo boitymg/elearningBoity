@@ -40,10 +40,10 @@ elearning.boity de BOITY STUDIO.
 Il est entièrement autonome et ne nécessite aucune connexion internet
 ni dépendance externe.
 
-2. DÉPLOIEMENT SUR SERVEUR INTERNE (Exemple JOVENA)
+2. DÉPLOIEMENT SUR SERVEUR INTERNE OU WEB
 - Décompressez le contenu de ce dossier sur votre serveur web interne
-  (Apache, Nginx, IIS ou serveur intranet Jovena).
-- Exemple d'URL : https://serveur-interne.jovena.mg/formations/${formation.slug}/
+  (Apache, Nginx, IIS ou serveur intranet d'entreprise).
+- Exemple d'URL : https://formations.boity.mg/formations/${formation.slug}/
 - Assurez-vous que le fichier index.html est la page par défaut.
 - Placez vos fichiers vidéos MP4 dans le sous-dossier "media/".
 
