@@ -156,13 +156,24 @@ export default function CourseDetailPage() {
             </div>
 
             {/* Thumbnail */}
-            <div className="md:col-span-5 relative aspect-video bg-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-              <Image
-                src={formation.thumbnail_url || '/brand/logo-boity.png'}
-                alt={formation.title}
-                fill
-                className="object-cover"
-              />
+            <div className="md:col-span-5 relative aspect-video bg-slate-950 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-slate-800 flex items-center justify-center">
+              {!formation.thumbnail_url || formation.thumbnail_url.includes('logo-boity') ? (
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28">
+                  <Image
+                    src="/brand/logo-boity.png"
+                    alt={formation.title}
+                    fill
+                    className="object-contain drop-shadow-2xl opacity-90"
+                  />
+                </div>
+              ) : (
+                <Image
+                  src={formation.thumbnail_url || '/brand/logo-boity.png'}
+                  alt={formation.title}
+                  fill
+                  className="object-cover"
+                />
+              )}
             </div>
           </div>
 

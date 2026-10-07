@@ -32,16 +32,29 @@ export function CourseCard({
     return `${hours}h ${remMins}m`;
   };
 
+  const isDefaultLogo = !formation.thumbnail_url || formation.thumbnail_url.includes('logo-boity');
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col overflow-hidden group">
       {/* Thumbnail Banner */}
-      <div className="relative aspect-video w-full bg-slate-900 overflow-hidden">
-        <Image
-          src={formation.thumbnail_url || '/brand/logo-boity.png'}
-          alt={formation.title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
-        />
+      <div className="relative aspect-video w-full bg-slate-950 overflow-hidden flex items-center justify-center">
+        {isDefaultLogo ? (
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 transition-transform duration-300 group-hover:scale-105">
+            <Image
+              src="/brand/logo-boity.png"
+              alt={formation.title}
+              fill
+              className="object-contain drop-shadow-2xl opacity-90 group-hover:opacity-100"
+            />
+          </div>
+        ) : (
+          <Image
+            src={formation.thumbnail_url || '/brand/logo-boity.png'}
+            alt={formation.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
+          />
+        )}
 
         {/* Badges Overlay */}
         <div className="absolute top-3 left-3 flex items-center gap-2 z-10">

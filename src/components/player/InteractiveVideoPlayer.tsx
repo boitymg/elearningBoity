@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Formation, Chapitre, Sequence, Video, Interaction } from '@/lib/types/elearning';
 import {
   Play,
@@ -339,11 +340,25 @@ export function InteractiveVideoPlayer({
         <span>Retour</span>
       </Link>
 
+      {/* AFFICHE INITIALE AVEC LOGO BOITY RÉDUIT ET PROPORTIONNÉ */}
+      {currentTime === 0 && !isPlaying && (
+        <div className="absolute inset-0 bg-slate-950 flex items-center justify-center pointer-events-none z-5">
+          <div className="relative w-28 h-28 sm:w-36 sm:h-36">
+            <Image
+              src="/brand/logo-boity.png"
+              alt={formation.title}
+              fill
+              className="object-contain drop-shadow-2xl opacity-90"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Balise HTML5 Video optimisée streaming CDN et 1000+ utilisateurs */}
       <video
         ref={videoRef}
         src={videoSrc}
-        poster={video.thumbnail_url || undefined}
+        poster={video.thumbnail_url && !video.thumbnail_url.includes('logo-boity') ? video.thumbnail_url : undefined}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={() => {
           if (videoRef.current) {
