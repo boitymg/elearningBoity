@@ -18,7 +18,6 @@ import {
   ShieldCheck,
   Video,
   FileCode2,
-  CheckCircle,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -131,30 +130,22 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Carte Type 2 */}
-              <div className="bg-white rounded-2xl p-8 border border-slate-200/90 shadow-xs hover:border-[#0B4F9C] transition-all">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#0B4F9C] flex items-center justify-center mb-6">
-                  <Video className="w-6 h-6" />
+              <div className="bg-white rounded-2xl p-8 border border-slate-200/90 shadow-xs hover:border-[#0B4F9C] transition-all flex flex-col justify-between">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#0B4F9C] flex items-center justify-center mb-6">
+                    <Video className="w-6 h-6" />
+                  </div>
+                  <div className="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#0B4F9C] text-white uppercase tracking-wider mb-3">
+                    Type 2 • Vidéo Interactive
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">
+                    Parcours libre sans évaluation
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed mb-6">
+                    Exploration active grâce à des chapitres, boutons cliquables, zones sensibles (hotspots) et sauts conditionnels. Idéal pour les démonstrations de process et guides techniques Boity Studio.
+                  </p>
                 </div>
-                <div className="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#0B4F9C] text-white uppercase tracking-wider mb-3">
-                  Type 2 • Vidéo Interactive
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  Parcours libre sans évaluation
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                  Exploration active grâce à des chapitres, boutons cliquables, zones sensibles (hotspots) et sauts conditionnels. Idéal pour les démonstrations de process et guides techniques Boity Studio.
-                </p>
-                <ul className="space-y-2.5 text-xs text-slate-700 font-medium">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-[#EE9B00]" />
-                    <span>Navigation libre et accès direct aux séquences</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-[#EE9B00]" />
-                    <span>Export en package HTML5 autonome sans dépendance</span>
-                  </li>
-                </ul>
-                <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-5 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-xs text-slate-500 font-light">Vidéo interactive • 08:43</span>
                   <Link href="/app/formation/a0000000-0000-0000-0000-000000000002/player">
                     <Button variant="secondary" size="sm" rightIcon={<ArrowRight className="w-4 h-4" />}>
@@ -179,20 +170,6 @@ export default function HomePage() {
                   <p className="text-sm text-slate-600 leading-relaxed mb-6">
                     {"Intègre des quiz interactifs synchronisés, calcul automatique de score, gestion du seuil de réussite (ex: 70%) et export certifié SCORM 1.2 pour LMS d'entreprise."}
                   </p>
-                  <ul className="space-y-2.5 text-xs text-slate-700 font-medium mb-6">
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
-                      <span>Quiz QCM, choix multiples et vrai/faux avec explications</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
-                      <span>Export SCORM 1.2 complet avec imsmanifest.xml valide</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-[#0B4F9C]" />
-                      <span>Traçabilité cmi (lesson_status, score.raw, session_time)</span>
-                    </li>
-                  </ul>
                 </div>
                 <div className="pt-5 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-xs text-slate-500 font-light">5 modules • Examen certifiant</span>
