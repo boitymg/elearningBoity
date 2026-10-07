@@ -338,7 +338,7 @@ export default function CourseBuilderPage() {
             <span>Formations</span>
           </Link>
           <div className="h-4 w-px bg-slate-800" />
-          <BrandLogo variant="symbol" size="sm" href="" />
+          <BrandLogo variant="symbol" size="sm" href="/" />
           <div>
             <h1 className="text-sm font-bold text-white line-clamp-1">
               {formation?.title || 'Éditeur de formation'}

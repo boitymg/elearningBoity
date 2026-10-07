@@ -14,6 +14,7 @@ import {
   Shield,
   Menu,
   X,
+  Globe,
 } from 'lucide-react';
 
 export function LearnerSidebar() {
@@ -33,7 +34,7 @@ export function LearnerSidebar() {
       {/* Brand Header */}
       <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
         <div>
-          <BrandLogo variant="full" size="md" href="/app" />
+          <BrandLogo variant="full" size="md" href="/" />
           <div className="mt-2.5 inline-block text-[11px] font-bold text-[#0B4F9C] uppercase tracking-wider bg-blue-50 px-2.5 py-0.5 rounded-full">
             Espace Apprenant
           </div>
@@ -82,6 +83,18 @@ export function LearnerSidebar() {
             </Link>
           </div>
         ) : null}
+
+        <div className="pt-4 mt-4 border-t border-slate-100">
+          <Link
+            href="/"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-[#0B4F9C] hover:bg-slate-50 transition-all"
+            title="Retourner à la landing page"
+          >
+            <Globe className="w-4 h-4 text-[#EE9B00]" />
+            <span>Site public (Accueil)</span>
+          </Link>
+        </div>
       </nav>
 
       {/* Footer Profile & Logout */}
@@ -109,7 +122,7 @@ export function LearnerSidebar() {
     <>
       {/* BARRE MOBILE SUPÉRIEURE */}
       <div className="md:hidden sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 shadow-xs">
-        <BrandLogo variant="symbol" size="sm" href="/app" />
+        <BrandLogo variant="symbol" size="sm" href="/" />
 
         <div className="text-center">
           <span className="text-xs font-bold text-slate-800">Espace Apprenant</span>

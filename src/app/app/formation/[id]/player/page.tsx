@@ -13,7 +13,7 @@ import { BrandLogo } from '@/components/ui/BrandLogo';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import type { Formation, Chapitre, Sequence, Video, Interaction, Quiz } from '@/lib/types/elearning';
-import { ArrowLeft, Award, CheckCircle2, ListTree, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Award, CheckCircle2, ListTree, RefreshCw, Home } from 'lucide-react';
 
 export default function PlayerPage() {
   const params = useParams();
@@ -275,17 +275,26 @@ export default function PlayerPage() {
       <header className="h-14 sm:h-16 px-3 sm:px-6 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 flex items-center justify-between z-30 shrink-0">
         <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
           <Link
+            href="/"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-semibold transition-colors border border-slate-700 shadow-sm shrink-0"
+            title="Retour à la page d'accueil (Landing page)"
+          >
+            <Home className="w-4 h-4 text-[#EE9B00]" />
+            <span className="hidden sm:inline">Accueil</span>
+          </Link>
+
+          <Link
             href="/app/formations"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-semibold transition-colors border border-slate-700 shadow-sm shrink-0"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-semibold transition-colors border border-slate-700 shadow-sm shrink-0"
             title="Retour à la liste des formations"
           >
-            <ArrowLeft className="w-4 h-4 text-[#EE9B00]" />
+            <ArrowLeft className="w-4 h-4 text-slate-400" />
             <span>Retour</span>
           </Link>
 
           <div className="h-4 w-px bg-slate-800 shrink-0" />
 
-          <BrandLogo variant="symbol" size="sm" href="" className="shrink-0" />
+          <BrandLogo variant="symbol" size="sm" href="/" className="shrink-0" />
 
           <div className="min-w-0">
             <h1 className="text-xs sm:text-sm font-bold text-white truncate max-w-[150px] sm:max-w-xs md:max-w-md">

@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Menu,
   X,
+  Home,
 } from 'lucide-react';
 
 export function AdminSidebar() {
@@ -81,6 +82,15 @@ export function AdminSidebar() {
 
       {/* Footer Profile & Back to Learner App */}
       <div className="p-4 border-t border-slate-800 bg-slate-950/60 space-y-3">
+        <Link
+          href="/"
+          onClick={() => setMobileOpen(false)}
+          className="flex items-center gap-2 text-xs text-slate-400 hover:text-[#EE9B00] transition-colors"
+        >
+          <Home className="w-3.5 h-3.5 text-[#EE9B00]" />
+          <span>Retour au site public</span>
+        </Link>
+
         <Link
           href="/app/formations"
           onClick={() => setMobileOpen(false)}

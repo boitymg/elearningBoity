@@ -75,16 +75,15 @@ export function BrandLogo({
     </div>
   );
 
-  if (href) {
-    return (
-      <Link
-        href={href}
-        className="inline-flex items-center shrink-0 transition-transform hover:opacity-90 active:scale-95"
-      >
-        {content}
-      </Link>
-    );
-  }
+  const targetHref = href && href.trim() !== '' ? href : '/';
 
-  return content;
+  return (
+    <Link
+      href={targetHref}
+      title="Retour à l'accueil"
+      className="inline-flex items-center shrink-0 transition-transform hover:opacity-90 active:scale-95"
+    >
+      {content}
+    </Link>
+  );
 }

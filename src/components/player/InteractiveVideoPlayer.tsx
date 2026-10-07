@@ -20,6 +20,7 @@ import {
   Info,
   CheckCircle,
   ArrowLeft,
+  Home,
 } from 'lucide-react';
 
 interface InteractiveVideoPlayerProps {
@@ -330,15 +331,25 @@ export function InteractiveVideoPlayer({
         }
       }}
     >
-      {/* BOUTON RETOUR DIRECT DU LECTEUR VIDÉO */}
-      <Link
-        href="/app/formations"
-        className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold border border-white/20 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95"
-        title="Retour aux formations"
-      >
-        <ArrowLeft className="w-4 h-4 text-[#EE9B00]" />
-        <span>Retour</span>
-      </Link>
+      {/* BOUTONS NAVIGATION DU LECTEUR VIDÉO */}
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 flex items-center gap-2">
+        <Link
+          href="/"
+          className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold border border-white/20 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95"
+          title="Retour à l'accueil (Landing page)"
+        >
+          <Home className="w-4 h-4 text-[#EE9B00]" />
+          <span>Accueil</span>
+        </Link>
+        <Link
+          href="/app/formations"
+          className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold border border-white/20 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95"
+          title="Retour aux formations"
+        >
+          <ArrowLeft className="w-4 h-4 text-slate-300" />
+          <span className="hidden sm:inline">Formations</span>
+        </Link>
+      </div>
 
       {/* AFFICHE INITIALE AVEC LOGO BOITY RÉDUIT ET PROPORTIONNÉ */}
       {currentTime === 0 && !isPlaying && (
